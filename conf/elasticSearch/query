@@ -1,0 +1,9 @@
+//查询文档
+GET meta_data_import/_search
+{
+  "query": {
+    "match": {
+      "meta_id": "course_feedback_raw"
+    }
+  }
+}

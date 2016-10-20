@@ -53,21 +53,28 @@ Ext.onReady(function(){
         frame: true,
         title: window.BootData.Title,
         header:{
-            items:[{
-                xtype:'button',
-                text: 'Export',
-                handler: function(){
-                    var result = $('#query-builder').queryBuilder('getSQL', false);
-                    if(result.sql.length > 0) {
-                        result.sql = "select * from course where " + result.sql;
-                        //alert(result.sql);
-                        bootbox.alert({
-                            title: "sql语句",
-                            message: '<pre class="code-popup">' + result.sql + '</pre>'
-                        });
+            items:[
+                {
+                    xtype: 'button',
+                    text: 'Search',
+                    handler: function () {
+                    }
+                },
+                {
+                    xtype: 'button',
+                    text: 'Export',
+                    handler: function () {
+                        var result = $('#query-builder').queryBuilder('getSQL', false);
+                        if (result.sql.length > 0) {
+                            result.sql = "select * from course where " + result.sql;
+                            bootbox.alert({
+                                title: "sql语句",
+                                message: '<pre class="code-popup">' + result.sql + '</pre>'
+                            });
+                        }
                     }
                 }
-            }]
+            ]
         },
         width: '100%',
         height: 400,

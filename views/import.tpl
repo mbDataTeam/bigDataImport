@@ -9,6 +9,7 @@
         <!--query builder css -->
         <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/bootstrap-select.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/bootstrap-datepicker3.css">
         <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/awesome-bootstrap-checkbox.css">
         <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/query-builder.default.css">
 
@@ -17,6 +18,7 @@
         <script type="text/javascript" src="/static/js/querybuilder/bootstrap.min.js"></script>
         <script type="text/javascript" src="/static/js/querybuilder/bootstrap-select.js"></script>
         <script type="text/javascript" src="/static/js/querybuilder/bootbox.js"></script>
+        <script type="text/javascript" src="/static/js/querybuilder/bootstrap-datepicker.js"></script>
         <!-- sql plug in -->
         <script type="text/javascript" src="/static/js/querybuilder/sql-parser.js"></script>
         <script type="text/javascript" src="/static/js/querybuilder/doT.js"></script>
@@ -48,7 +50,7 @@
 
 <script>
     $('#query-builder').queryBuilder({
-        plugins: ['bt-tooltip-errors'],
+        plugins: ['bt-tooltip-errors','bt-selectpicker','bt-checkbox'],
         filters: JSON.parse(window.BootData.Filters)
     });
 </script>

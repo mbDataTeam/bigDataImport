@@ -1,5 +1,18 @@
 package util
 
+type DataText struct {
+	Text string `json:"text"`
+}
+
+type TypeName interface{}
+type ResultDataSchema struct {
+	Columns []struct{
+		Text string `json:"text"`
+	}`json:"columns"`
+	Rows [][]interface{} `json:"rows"`
+	Type string `json:"type"`
+}
+
 type TableSchema struct {
 	MetaId string `json:"meta_id"`
 	TableDesc string `json:"table_desc"`
@@ -11,6 +24,7 @@ type ColumnSchema struct {
 	Field string `json:"field"`
 	Type string `json:"type"`
 	Show bool `json:"show"`
+	Values string `json:"values"`
 }
 
 type Filters struct {
@@ -20,6 +34,8 @@ type Filters struct {
 	Input string `json:"input"`  //text, textarea, radio, checkbox and select
 	Values interface{} `json:"values"` // catalog data or checkbox data
 	Operators []string `json:"operators"` //
+	Plugin string `json:"plugin"`
+	Plugin_config interface{} `json:"plugin_config"`
 }
 
 type ColumnDefinition struct {
@@ -79,4 +95,10 @@ const (
 	Input_select = "select"
 	Input_text = "text"
 	Input_textarea = "textarea"
+)
+
+const (
+	Confirm_Type = "confirm" //是 否
+	Gender_Type = "gender" //男 女
+	
 )

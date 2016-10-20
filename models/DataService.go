@@ -1,5 +1,14 @@
 package models
 
+import (
+	"net/http"
+	"strings"
+	"fmt"
+	"io/ioutil"
+	"encoding/json"
+	"bigDataImport/util"
+)
+
 func GetDataList(pageIndex,start,pageCount int) interface{}{
 	rows := generateRows(pageIndex,start,pageCount)
 	jsonData := map[string]interface{}{}
@@ -11,6 +20,9 @@ func GetDataList(pageIndex,start,pageCount int) interface{}{
 }
 
 func generateRows(pageIndex,start,pageCount int) interface{} {
+	rowResult := getRows()
+	
+	fmt.Print(rowResult)
 	rows := []interface{}{}
 	if pageIndex > 1{
 		row5 := map[string]interface{}{
@@ -82,4 +94,21 @@ func generateRows(pageIndex,start,pageCount int) interface{} {
 	}
 	return rows;
 
+}
+
+func getRows() util.ResultDataSchema {
+	url := "http://192.168.174.135:8085/query"
+	postData := `SELECT * FROM mb.warehouse.course_feedback_raw LIMIT 1000`
+	bodyType :="text/plain" //application/x-www-form-urlencoded
+ 	b := strings.NewReader(postData)
+	resp,err := http.Post(url,bodyType,b)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	var rowResults []util.ResultDataSchema
+	json.Unmarshal(body,&rowResults)
+	fmt.Println(string(body))
+	return rowResults[0]
 }

@@ -27,25 +27,68 @@ func GenerateFilterAndGridColumns(schema TableSchema)(string, string,[]string ){
 
 // build filter schema data
 func buildFilterData(columns []ColumnSchema, index int, filters []Filters) []Filters {
+	
 	filters = append(filters, Filters{
 		Id: columns[index].Field,
 		Label: columns[index].Name,
 		Type: columns[index].Type,
-		Input: buildInput(columns[index].Type),
-		Values: buildValues(columns[index].Type),
+		Input: buildInput(columns[index].Type, columns[index].Values),
+		Values: buildValues(columns[index].Values),
 		Operators: buildOperations(columns[index].Type),
+		Plugin: buildPlug(columns[index].Type),
+		Plugin_config: buildPlugConfig(columns[index].Type),
 	})
 	return filters
 }
 
-//return input
-func buildInput(dataType string) (string) {
+//build plugin name
+func buildPlug(dataType string) (string)  {
+	if dataType == Col_Time || dataType == Col_DateTime || dataType == Col_Date{
+		return "datepicker"
+	}
+	return ""
+}
+
+//build plugin config
+func buildPlugConfig(dataType string) (interface{})  {
+	var config interface{}
+	switch dataType {
+		case Col_Date:
+			config = map[string]interface{}{
+				"format": "yyyy-mm-dd",
+				"todayBtn": "linked",
+				"todayHighlight": true,
+				"autoclose": false,
+			}
+		case Col_DateTime:
+			config = map[string]interface{}{
+				"format": "yyyy-mm-dd",
+				"todayBtn": "linked",
+				"todayHighlight": true,
+				"autoclose": false,
+			}
+		case Col_Time:
+			config = map[string]interface{}{
+				"format": "hh:ii:ss",
+				"autoclose": false,
+			}
+	}
+	
+	return config
+}
+
+//return input control
+func buildInput(dataType,valueType string) (string) {
 	var input string
 	switch dataType {
 		case Col_Boolean:
 			input = Input_radio
 		case Col_Int, Col_Double:
-			input = Input_text
+			if valueType == Confirm_Type {
+				input = Input_radio
+			}else {
+				input = Input_text
+			}
 		case Col_String, Col_Date, Col_DateTime,Col_Time:
 			input = Input_text
 		default:
@@ -77,11 +120,19 @@ func buildOperations(dataType string) ([]string) {
 }
 
 //return values
-func buildValues(dataType string) (interface{}) {
+func buildValues(valuesType string) (interface{}) {
 	var values interface{}
-	switch dataType {
-		case Col_Boolean:
-			values = ""
+	switch valuesType {
+		case Confirm_Type:
+			values = map[int]string{
+				1 : "是",
+				0 : "否",
+			}
+		case Gender_Type:
+			values = map[int]string{
+				1 : "男",
+				0 : "女",
+			}
 		default:
 			values = ""
 		}

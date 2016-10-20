@@ -5,6 +5,7 @@ import (
 	"bigDataImport/util"
 	"strconv"
 	"bigDataImport/models"
+	"fmt"
 )
 
 type ImportController struct {
@@ -12,14 +13,17 @@ type ImportController struct {
 }
 
 // http://localhost:9100/api/import/?meta_id=course_feedback_raw
+// http://localhost:9100/api/import/?meta_id=course_quiz_raw
 func (c *ImportController) Get() {
 	//requestUrl,_ := url.QueryUnescape(c.Ctx.Request.URL.String())
 	/*if (util.ValidateSignUrl(requestUrl) == false){
 		c.Ctx.WriteString("invalidate sign name")
 	}*/
-	metaId := c.GetString("meta_id") // get sql parameters
-	tableSchema := util.QueryTableMeta(metaId);
+	metaId := c.GetString("meta_id") // get table name
+	tableSchema := util.QueryTableMeta(metaId); // query table schema from elastic search
 	jsonColumn, jsonFilter, fields := util.GenerateFilterAndGridColumns(*tableSchema)
+	
+	fmt.Print(jsonFilter)
 	
 	c.Data["ImportDataDefinition"] = &util.ImportDataDefinition{
 		GridTitle: tableSchema.TableDesc,

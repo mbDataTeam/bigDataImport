@@ -1,0 +1,67 @@
+POST meta_data_import/course_feedback_raw/1
+{
+  "meta_id": "course_feedback_raw",
+  "table_desc": "课程学习",
+  "columns": [
+    {
+      "name": "课程ID",
+      "field": "course_id",
+      "type": "integer",
+      "show": false
+    },
+    {
+      "name": "用户ID",
+      "field": "user_id",
+      "type": "integer",
+      "show": false
+    },
+     {
+      "name": "问题1",
+      "field": "question1_stars",
+      "type": "string",
+      "show": true
+    },
+     {
+      "name": "问题2",
+      "field": "question2_stars",
+      "type": "string",
+      "show": true
+    },
+     {
+      "name": "问题3",
+      "field": "question3_stars",
+      "type": "string",
+      "show": true
+    },
+     {
+      "name": "平均值",
+      "field": "avg_stars",
+      "type": "string",
+      "show": true
+    },
+     {
+      "name": "内容",
+      "field": "content",
+      "type": "string",
+      "show": true
+    },
+     {
+      "name": "更新时间",
+      "field": "update_time",
+      "type": "integer",
+      "show": true
+    },
+     {
+      "name": "公司ID",
+      "field": "company_id",
+      "type": "integer",
+      "show": true
+    },
+    {
+      "name": "分区号",
+      "field": "p",
+      "type": "string",
+      "show": true
+    }
+  ]
+}
