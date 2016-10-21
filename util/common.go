@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 )
 
-func GenerateFilterAndGridColumns(schema TableSchema)(string, string,[]string ){
+func GenerateFilterAndGridColumns(schema TableSchema)(string, string,[]string,string ){
 	total := len(schema.Columns)
 	columns := []interface{}{}
 	filters := []Filters{}
 	fields := []string{}
 	if total == 0 {
-		return "", "", fields
+		return "", "", fields,""
 	}
 	for i:= 0; i<total;i++ {
 		if(schema.Columns[i].Show == true) {
@@ -22,7 +22,7 @@ func GenerateFilterAndGridColumns(schema TableSchema)(string, string,[]string ){
 	columnByte, _ :=json.Marshal(columns)
 	filerByte,_ :=json.Marshal(filters)
 	
-	return string(columnByte),string(filerByte),fields
+	return string(columnByte),string(filerByte),fields, schema.TableName
 }
 
 // build filter schema data

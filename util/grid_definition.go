@@ -1,10 +1,5 @@
 package util
 
-type DataText struct {
-	Text string `json:"text"`
-}
-
-type TypeName interface{}
 type ResultDataSchema struct {
 	Columns []struct{
 		Text string `json:"text"`
@@ -16,6 +11,7 @@ type ResultDataSchema struct {
 type TableSchema struct {
 	MetaId string `json:"meta_id"`
 	TableDesc string `json:"table_desc"`
+	TableName string `json:"table_name"`
 	Columns []ColumnSchema `json:"columns"`
 }
 
@@ -51,6 +47,7 @@ type ImportDataDefinition struct{
 	Columns string
 	Filters string
 	Fields []string
+	TableName string
 }
 
 //enum column data type

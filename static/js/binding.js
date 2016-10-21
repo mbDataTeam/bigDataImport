@@ -17,11 +17,11 @@ Ext.onReady(function(){
     // create the Data Store
     var store = Ext.create('Ext.data.Store', {
         model: 'ImportData',
-        pageSize: 15,
+        //pageSize: 15,
         proxy: {
             // load using HTTP
             type: 'ajax',
-            url: '/api/fetchData',
+            url: '/api/fetchData?tableName='+window.BootData.TableName,
             reader: {
                 type: 'json',
                 rootProperty: 'data',
@@ -36,7 +36,7 @@ Ext.onReady(function(){
         store: store,
         columns: JSON.parse(window.BootData.Columns),
         bbar: {
-            xtype: 'pagingtoolbar',
+            type: 'pagingtoolbar',
             store: store,
             displayInfo: true,
             displayMsg: 'Displaying {0} to {1} of {2} &nbsp;records ',
@@ -58,6 +58,14 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Search',
                     handler: function () {
+                        var result = $('#query-builder').queryBuilder('getSQL', false);
+                        if (result.sql.length > 0) {
+                            result.sql = "select * from "+window.BootData.TableName+" where " + result.sql;
+                            bootbox.alert({
+                                title: "sql语句",
+                                message: '<pre class="code-popup">' + result.sql + '</pre>'
+                            });
+                        }
                     }
                 },
                 {
@@ -66,7 +74,7 @@ Ext.onReady(function(){
                     handler: function () {
                         var result = $('#query-builder').queryBuilder('getSQL', false);
                         if (result.sql.length > 0) {
-                            result.sql = "select * from course where " + result.sql;
+                            result.sql = "select * from "+window.BootData.TableName+" where " + result.sql;
                             bootbox.alert({
                                 title: "sql语句",
                                 message: '<pre class="code-popup">' + result.sql + '</pre>'

@@ -2,6 +2,7 @@ POST meta_data_import/course_feedback_raw/1
 {
   "meta_id": "course_feedback_raw",
   "table_desc": "课程学习",
+  "table_name": "mb.warehouse.course_feedback_raw",
   "columns": [
     {
       "name": "课程ID",

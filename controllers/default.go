@@ -21,7 +21,7 @@ func (c *ImportController) Get() {
 	}*/
 	metaId := c.GetString("meta_id") // get table name
 	tableSchema := util.QueryTableMeta(metaId); // query table schema from elastic search
-	jsonColumn, jsonFilter, fields := util.GenerateFilterAndGridColumns(*tableSchema)
+	jsonColumn, jsonFilter, fields,tableName := util.GenerateFilterAndGridColumns(*tableSchema)
 	
 	fmt.Print(jsonFilter)
 	
@@ -30,6 +30,7 @@ func (c *ImportController) Get() {
 		Columns: jsonColumn,
 		Filters: jsonFilter,
 		Fields:  fields,
+		TableName: tableName,
 	}
 	c.TplName = "import.tpl"
 }
@@ -39,8 +40,9 @@ func (c *ImportController) List() {
 	page,_ := strconv.Atoi(c.GetString("page"))   //page index, start with 1
 	start,_ := strconv.Atoi(c.GetString("start"))  // start row index , start with 0
 	limit,_ := strconv.Atoi(c.GetString("limit"))  // row count per page
+	tableName := c.GetString("tableName")
 
-	jsonData:= models.GetDataList(page,start,limit)
+	jsonData:= models.GetDataList(page,start,limit,tableName)
 	c.Data["json"] = jsonData
 	c.ServeJSON()
 }

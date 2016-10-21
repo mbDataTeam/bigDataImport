@@ -2,6 +2,7 @@ POST /meta_data_import/course_quiz_raw/2
 {
   "meta_id": "course_quiz_raw",
   "table_desc": "课程问题",
+  "table_name": "mb.warehouse.course_quiz_raw",
   "columns": [
     {
       "name": "上传时间",

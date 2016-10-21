@@ -26,7 +26,7 @@
         <script type="text/javascript" src="/static/js/querybuilder/query-builder.js"></script>
 
         <script type="text/javascript" src="/static/js/ext-all.js"></script>
-        <script type="text/javascript" src="/static/js/options-toolbar.js"></script>
+
         <!-- page specific   -->
         <script type="text/javascript" src="/static/js/binding.js"></script>
 
@@ -44,6 +44,7 @@
         Columns : {{.ImportDataDefinition.Columns}},
         Filters : {{.ImportDataDefinition.Filters}},
         Fields : {{.ImportDataDefinition.Fields}},
+        TableName : {{.ImportDataDefinition.TableName}},
     }
 
 </script>
@@ -53,4 +54,8 @@
         plugins: ['bt-tooltip-errors','bt-selectpicker','bt-checkbox'],
         filters: JSON.parse(window.BootData.Filters)
     });
+
+    // hide theme select control
+    // $("#ext-element-6").css("display","none")
+    // $("#options-toolbar").css("display","none")
 </script>

@@ -7,3 +7,11 @@ GET meta_data_import/_search
     }
   }
 }
+
+//update
+POST /meta_data_import/course_quiz_raw/2/_update
+{
+"doc": {
+  "table_name" : "mb.warehouse.course_quiz_raw"
+}
+}
