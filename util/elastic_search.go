@@ -39,8 +39,8 @@ func QueryTableMeta(metaId string) *TableSchema  {
 	}
 	if len(out.Hits.Hits) == 1{
 	     byteData,_:= out.Hits.Hits[0].Source.MarshalJSON()
-	     result:= string(byteData)
-	     fmt.Print(result)
+	     //result:= string(byteData)
+	     //fmt.Print(result)
 	     json.Unmarshal(byteData,&ts)
 	}
 	return &ts

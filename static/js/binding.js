@@ -60,11 +60,20 @@ Ext.onReady(function(){
                     handler: function () {
                         var result = $('#query-builder').queryBuilder('getSQL', false);
                         if (result.sql.length > 0) {
-                            result.sql = "select * from "+window.BootData.TableName+" where " + result.sql;
                             bootbox.alert({
                                 title: "sql语句",
-                                message: '<pre class="code-popup">' + result.sql + '</pre>'
+                                message: "<P>"+result.sql+"</P>"
                             });
+
+                            grid.store.clearData();
+                            grid.view.refresh();
+                            store.load(
+                                {
+                                    params : {
+                                        filters: result.sql
+                                    }
+                                }
+                            )
                         }
                     }
                 },
@@ -72,6 +81,28 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Export',
                     handler: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: '/api/importData',
+                            data: {"tableName":window.BootData.TableName, "filter":"a=b"},
+                            success: function(result) {
+                                var resultData = JSON.parse(result)
+                                if(resultData.successful == true)
+                                    window.location.href = "/static/tmpFile/mbData.xlsx";
+                                /*var a = document.createElement("a");
+                                document.body.appendChild(a);
+                                a.style = "display: none";
+                                //var BOM = "\uFEFF";
+                                var data  = result;
+                                var blob = new Blob([data], { type: "octet/stream" });
+                                url = window.URL.createObjectURL(blob);
+                                a.href = url;
+                                a.download = "mbData.csv";
+                                a.click();
+                                window.URL.revokeObjectURL(url);*/
+                            }
+                        });
+                        /*
                         var result = $('#query-builder').queryBuilder('getSQL', false);
                         if (result.sql.length > 0) {
                             result.sql = "select * from "+window.BootData.TableName+" where " + result.sql;
@@ -79,7 +110,7 @@ Ext.onReady(function(){
                                 title: "sql语句",
                                 message: '<pre class="code-popup">' + result.sql + '</pre>'
                             });
-                        }
+                        }*/
                     }
                 }
             ]

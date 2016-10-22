@@ -81,8 +81,6 @@ func buildPlugConfig(dataType string) (interface{})  {
 func buildInput(dataType,valueType string) (string) {
 	var input string
 	switch dataType {
-		case Col_Boolean:
-			input = Input_radio
 		case Col_Int, Col_Double:
 			if valueType == Confirm_Type {
 				input = Input_radio
@@ -101,9 +99,7 @@ func buildInput(dataType,valueType string) (string) {
 func buildOperations(dataType string) ([]string) {
 	var operations []string
 		switch dataType {
-			case Col_Boolean:
-				operations = []string{ Opt_is_null, Opt_is_not_null }
-			
+						
 		case Col_Int, Col_Double :
 			operations =[]string{ Opt_equal, Opt_not_equal,Opt_in,Opt_not_in,Opt_less,Opt_less_or_equal,Opt_greater,
 				Opt_greater_or_equal,Opt_between,Opt_not_between }
@@ -124,15 +120,9 @@ func buildValues(valuesType string) (interface{}) {
 	var values interface{}
 	switch valuesType {
 		case Confirm_Type:
-			values = map[int]string{
-				1 : "是",
-				0 : "否",
-			}
+			values = ""//models.InitYesOrNo()
 		case Gender_Type:
-			values = map[int]string{
-				1 : "男",
-				0 : "女",
-			}
+			values = ""//models.InitGenders()
 		default:
 			values = ""
 		}

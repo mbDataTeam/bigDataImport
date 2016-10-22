@@ -23,7 +23,7 @@ func (c *ImportController) Get() {
 	tableSchema := util.QueryTableMeta(metaId); // query table schema from elastic search
 	jsonColumn, jsonFilter, fields,tableName := util.GenerateFilterAndGridColumns(*tableSchema)
 	
-	fmt.Print(jsonFilter)
+	//fmt.Print(jsonFilter)
 	
 	c.Data["ImportDataDefinition"] = &util.ImportDataDefinition{
 		GridTitle: tableSchema.TableDesc,
@@ -37,12 +37,29 @@ func (c *ImportController) Get() {
 
 //paging
 func (c *ImportController) List() {
-	page,_ := strconv.Atoi(c.GetString("page"))   //page index, start with 1
+	page,_ := strconv.Atoi(c.GetString("page"))   // page index, start with 1
 	start,_ := strconv.Atoi(c.GetString("start"))  // start row index , start with 0
 	limit,_ := strconv.Atoi(c.GetString("limit"))  // row count per page
-	tableName := c.GetString("tableName")
-
-	jsonData:= models.GetDataList(page,start,limit,tableName)
+	tableName := c.GetString("tableName")      // table name
+	filters := c.GetString("filters")          // sql where condition
+	jsonData:= models.GetDataList(page,start,limit,tableName,filters)
 	c.Data["json"] = jsonData
 	c.ServeJSON()
+}
+
+//generate csv or excel file
+func (c *ImportController) SaveFile(){
+	tableName := c.GetString("tableName")      // table name
+	filters := c.GetString("filters")          // sql where condition
+	fmt.Sprintf("table mame is %s -- filter is %s", tableName,filters)
+	_,err := util.ExportExcel()
+	var jsonData string
+	if err == nil{
+		jsonData = `{"successful" : true }`
+	}else {
+		jsonData = `{"successful" : false }`
+	}
+	c.Data["json"] = jsonData
+	c.ServeJSON()
+	//c.Ctx.Output.Download("E:\\Go\\src\\bigDataImport\\tmpFile\\mbData.xlsx","mbData.xlsx")
 }

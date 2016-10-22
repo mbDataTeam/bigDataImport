@@ -58,7 +58,7 @@ const(
 	Col_Time  =   "time"
 	Col_Date   = "date"
 	Col_DateTime = "datetime"
-	Col_Boolean = "boolean"
+	//Col_Boolean = "boolean"
 )
 
 //filter operations enum

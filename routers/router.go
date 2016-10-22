@@ -8,4 +8,6 @@ import (
 func init() {
     beego.Router("/api/import", &controllers.ImportController{})
     beego.Router("/api/fetchData", &controllers.ImportController{},"*:List")
+	
+	beego.Router("/api/importData", &controllers.ImportController{},"Post:SaveFile")
 }
