@@ -9,16 +9,16 @@ import (
 	"bigDataImport/util"
 )
 
-func GetDataList(pageIndex,start,pageCount int,tableName,filters string) interface{}{
-	rows := generateRows(pageIndex,start,pageCount,tableName,filters)
+func GetDataList(pageIndex,start,pageCount int,tableName,filters string) (interface{},*util.ResultDataSchema) {
+	rows, result := generateRows(pageIndex,start,pageCount,tableName,filters)
 	jsonData := map[string]interface{}{}
 	totalCount := len(rows)
 	jsonData["data"] = rows
 	jsonData["rowCount"] = totalCount
-	return jsonData
+	return jsonData, result
 }
 
-func generateRows(pageIndex,start,pageCount int, tableName string, filters string) []interface{} {
+func generateRows(pageIndex,start,pageCount int, tableName string, filters string) ([]interface{},*util.ResultDataSchema) {
 	rowResult := getRows(pageIndex,start,pageCount,tableName,filters)
 	colCount := len(rowResult.Columns)
 	rowCount := len(rowResult.Rows)
@@ -35,12 +35,12 @@ func generateRows(pageIndex,start,pageCount int, tableName string, filters strin
 		}
 	}
 	//fmt.Print(rows)
-	return rows;
+	return rows,rowResult;
 
 }
 
 func getRows(pageIndex,start,pageCount int,tableName, filters string) *util.ResultDataSchema {
-	url := "http://192.168.174.135:8085/query"
+	url := "http://192.168.174.138:8085/query"  //TODO change the url on product
 	limit := 1000
 	var postData string
 	if filters == ""{

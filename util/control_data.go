@@ -1,4 +1,4 @@
-package models
+package util
 
 //radio button or checkbox for yes or no data
 func InitYesOrNo() map[int]string {

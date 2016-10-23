@@ -81,27 +81,8 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Export',
                     handler: function () {
-                        $.ajax({
-                            type: "POST",
-                            url: '/api/importData',
-                            data: {"tableName":window.BootData.TableName, "filter":"a=b"},
-                            success: function(result) {
-                                var resultData = JSON.parse(result)
-                                if(resultData.successful == true)
-                                    window.location.href = "/static/tmpFile/mbData.xlsx";
-                                /*var a = document.createElement("a");
-                                document.body.appendChild(a);
-                                a.style = "display: none";
-                                //var BOM = "\uFEFF";
-                                var data  = result;
-                                var blob = new Blob([data], { type: "octet/stream" });
-                                url = window.URL.createObjectURL(blob);
-                                a.href = url;
-                                a.download = "mbData.csv";
-                                a.click();
-                                window.URL.revokeObjectURL(url);*/
-                            }
-                        });
+                        $("#btnPopWin").click()
+
                         /*
                         var result = $('#query-builder').queryBuilder('getSQL', false);
                         if (result.sql.length > 0) {

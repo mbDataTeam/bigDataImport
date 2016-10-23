@@ -35,6 +35,49 @@
     <body>
         <div id="query-builder"></div>
         <div id="import-grid"></div>
+
+        <button id="btnPopWin" class="btn btn-primary btn-lg" style="display: none" data-toggle="modal" data-target="#myModal">
+        </button>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            选择文件类型下载
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td> <div class="radio radio-primary">
+                                    <input type="radio" name="radio1" id="rdExcel" value="xlsx" checked>
+                                    <label for="rdExcel">
+                                        Excel
+                                    </label>
+                                </div></td>
+                                <td width="20px"></td>
+                                <td><div class="radio radio-primary">
+                                    <input type="radio" name="radio1" id="rdCSV" value="csv">
+                                    <label for="rdCSV">
+                                        CSV
+                                    </label>
+                                </div></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button id="btnConfirm" type="button" class="btn btn-primary">
+                            确认
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
     </body>
 
 </html>
@@ -55,7 +98,17 @@
         filters: JSON.parse(window.BootData.Filters)
     });
 
-    // hide theme select control
-    // $("#ext-element-6").css("display","none")
-    // $("#options-toolbar").css("display","none")
+    $("#btnConfirm").click(function () {
+        var extensions = $("#rdExcel")[0].checked ? $("#rdExcel")[0].value : $("#rdCSV")[0].value;
+        $.ajax({
+            type: "POST",
+            url: '/api/importData',
+            data: { "extensions":extensions },
+            success: function(result) {
+                var resultData = JSON.parse(result)
+                if(resultData.successful == true)
+                    window.location.href = "/static/tmpFile/mbData."    + extensions;
+            }
+        });
+    })
 </script>

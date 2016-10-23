@@ -8,6 +8,10 @@ import (
 	"fmt"
 )
 
+var (
+	bigDataResult *util.ResultDataSchema
+)
+
 type ImportController struct {
 	beego.Controller
 }
@@ -42,17 +46,17 @@ func (c *ImportController) List() {
 	limit,_ := strconv.Atoi(c.GetString("limit"))  // row count per page
 	tableName := c.GetString("tableName")      // table name
 	filters := c.GetString("filters")          // sql where condition
-	jsonData:= models.GetDataList(page,start,limit,tableName,filters)
+	jsonData,result:= models.GetDataList(page,start,limit,tableName,filters)
+	bigDataResult = result
 	c.Data["json"] = jsonData
 	c.ServeJSON()
 }
 
 //generate csv or excel file
 func (c *ImportController) SaveFile(){
-	tableName := c.GetString("tableName")      // table name
-	filters := c.GetString("filters")          // sql where condition
-	fmt.Sprintf("table mame is %s -- filter is %s", tableName,filters)
-	_,err := util.ExportExcel()
+	extensions := c.GetString("extensions")      // file extensions name
+	fmt.Sprintf("download file extensions %s", extensions)
+	_,err := util.ExportFile(bigDataResult,extensions)
 	var jsonData string
 	if err == nil{
 		jsonData = `{"successful" : true }`
@@ -61,5 +65,4 @@ func (c *ImportController) SaveFile(){
 	}
 	c.Data["json"] = jsonData
 	c.ServeJSON()
-	//c.Ctx.Output.Download("E:\\Go\\src\\bigDataImport\\tmpFile\\mbData.xlsx","mbData.xlsx")
 }

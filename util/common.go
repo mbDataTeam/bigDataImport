@@ -120,9 +120,9 @@ func buildValues(valuesType string) (interface{}) {
 	var values interface{}
 	switch valuesType {
 		case Confirm_Type:
-			values = ""//models.InitYesOrNo()
+			values = InitYesOrNo()
 		case Gender_Type:
-			values = ""//models.InitGenders()
+			values = InitGenders()
 		default:
 			values = ""
 		}
