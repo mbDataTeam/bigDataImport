@@ -18,6 +18,7 @@ Ext.onReady(function(){
     var store = Ext.create('Ext.data.Store', {
         model: 'ImportData',
         //pageSize: 15,
+        id: 'gridStore',
         proxy: {
             // load using HTTP
             type: 'ajax',
@@ -81,7 +82,9 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Export',
                     handler: function () {
-                        $("#btnPopWin").click()
+                        if(Ext.getStore("gridStore").totalCount > 0) {
+                            $("#btnPopWin").click()
+                        }
 
                         /*
                         var result = $('#query-builder').queryBuilder('getSQL', false);

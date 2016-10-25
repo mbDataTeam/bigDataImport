@@ -48,6 +48,13 @@ type ImportDataDefinition struct{
 	Filters string
 	Fields []string
 	TableName string
+	CompanyId string
+}
+
+type SelectSchema struct {
+	GroupName string
+	OptionText string
+	OptionValue string
 }
 
 //enum column data type
@@ -98,4 +105,10 @@ const (
 	Confirm_Type = "confirm" //是 否
 	Gender_Type = "gender" //男 女
 	
+)
+
+const (
+	Sel_ParentCatalog = "pCatalog"
+	Sel_Catalog = "catalog"
+	Sel_Course = "course"
 )

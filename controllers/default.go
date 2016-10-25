@@ -16,14 +16,15 @@ type ImportController struct {
 	beego.Controller
 }
 
-// http://localhost:9100/api/import/?meta_id=course_feedback_raw
-// http://localhost:9100/api/import/?meta_id=course_quiz_raw
+// http://localhost:9100/api/import/?meta_id=course_feedback_raw&company_id=207
+// http://localhost:9100/api/import/?meta_id=course_quiz_raw&company_id=207
 func (c *ImportController) Get() {
 	//requestUrl,_ := url.QueryUnescape(c.Ctx.Request.URL.String())
 	/*if (util.ValidateSignUrl(requestUrl) == false){
 		c.Ctx.WriteString("invalidate sign name")
 	}*/
 	metaId := c.GetString("meta_id") // get table name
+	companyId := c.GetString("company_id")
 	tableSchema := util.QueryTableMeta(metaId); // query table schema from elastic search
 	jsonColumn, jsonFilter, fields,tableName := util.GenerateFilterAndGridColumns(*tableSchema)
 	
@@ -35,6 +36,7 @@ func (c *ImportController) Get() {
 		Filters: jsonFilter,
 		Fields:  fields,
 		TableName: tableName,
+		CompanyId: companyId,
 	}
 	c.TplName = "import.tpl"
 }
@@ -65,4 +67,23 @@ func (c *ImportController) SaveFile(){
 	}
 	c.Data["json"] = jsonData
 	c.ServeJSON()
+}
+
+func (c *ImportController) FillDropdownData()  {
+	ids := c.GetString("ids")
+	selType := c.GetString("selectType")
+	compIds := c.GetString("compIds")
+	//var jsonData []util.SelectSchema
+	switch selType {
+		case util.Sel_ParentCatalog:
+			c.Data["json"] = util.GetParentCatalogs(compIds)
+		case util.Sel_Catalog:
+			c.Data["json"] = util.GetCatlogs(compIds,ids)
+		case util.Sel_Course:
+			c.Data["json"] = util.GetCourseList(compIds,ids)
+	}
+	fmt.Sprintf("%s",ids)
+	//c.Data["json"] = jsonData
+	c.ServeJSON()
+	
 }

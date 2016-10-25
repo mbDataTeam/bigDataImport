@@ -10,4 +10,6 @@ func init() {
     beego.Router("/api/fetchData", &controllers.ImportController{},"*:List")
 	
 	beego.Router("/api/importData", &controllers.ImportController{},"Post:SaveFile")
+	
+	beego.Router("/api/fillSelect", &controllers.ImportController{} , "Post:FillDropdownData")
 }

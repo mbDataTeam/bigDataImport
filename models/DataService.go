@@ -1,11 +1,7 @@
 package models
 
 import (
-	"net/http"
-	"strings"
 	"fmt"
-	"io/ioutil"
-	"encoding/json"
 	"bigDataImport/util"
 )
 
@@ -40,30 +36,12 @@ func generateRows(pageIndex,start,pageCount int, tableName string, filters strin
 }
 
 func getRows(pageIndex,start,pageCount int,tableName, filters string) *util.ResultDataSchema {
-	url := "http://192.168.174.138:8085/query"  //TODO change the url on product
 	limit := 1000
-	var postData string
+	var sql string
 	if filters == ""{
-		postData = fmt.Sprintf("SELECT * FROM %s LIMIT %d ",tableName,limit)
+		sql = fmt.Sprintf("SELECT * FROM %s LIMIT %d ",tableName,limit)
 	}else {
-		postData = fmt.Sprintf("SELECT * FROM %s where %s LIMIT %d", tableName, filters, limit)
+		sql = fmt.Sprintf("SELECT * FROM %s where %s LIMIT %d", tableName, filters, limit)
 	}
-	fmt.Print(postData)
-	
-	bodyType :="text/plain" // application/x-www-form-urlencoded
- 	b := strings.NewReader(postData)
-	resp,err := http.Post(url,bodyType,b)
-	if err != nil {
-		fmt.Println(err)
-		return &util.ResultDataSchema{}
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	var rowResults []util.ResultDataSchema
-	json.Unmarshal(body,&rowResults)
-	//fmt.Println(string(body))
-	if len(rowResults) > 0 {
-		return &rowResults[0]
-	}
-	return &util.ResultDataSchema{}
+	return  util.QueryData(sql)
 }
