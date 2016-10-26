@@ -1,0 +1,12 @@
+{
+    "env" : "dev",
+    "data_query":"http://192.168.174.138:8085/query",
+    "elastic_search":{
+      "index" : "meta_data_import",
+      "host" : "114.55.65.41",
+      "port" : "29200",
+      "user_name" : "awesome_bi",
+      "password" : "bi@@#$23(SDAFDSWE!#DASFSDGSDGSDG123eghhjjhj)",
+      "cluster_domains" : "114.55.65.41"
+    }
+}

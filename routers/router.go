@@ -3,6 +3,7 @@ package routers
 import (
 	"bigDataImport/controllers"
 	"github.com/astaxie/beego"
+	_"bigDataImport/setting"
 )
 
 func init() {

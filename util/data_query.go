@@ -6,10 +6,11 @@ import (
 	"strings"
 	"net/http"
 	"encoding/json"
+	"bigDataImport/setting"
 )
 
 func QueryData(sql string) *ResultDataSchema  {
-	url := "http://192.168.174.138:8085/query"  //TODO Prod -- 10.24.35.212:7777
+	url := setting.DataQuery
 	fmt.Print(sql)
 	
 	bodyType :="text/plain" // application/x-www-form-urlencoded

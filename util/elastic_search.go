@@ -6,20 +6,21 @@ import (
 	"fmt"
 	"strings"
 	"encoding/json"
+	"bigDataImport/setting"
 )
 var (
-	index string = "meta_data_import"
-	host *string = flag.String("host", "114.55.65.41", "Elasticsearch Host")
-	port string = "29200"
+	index string = setting.ES_Index //"meta_data_import"
+	host *string = flag.String("host", setting.ES_Host, "Elasticsearch Host")
+	port string = setting.ES_Port
 )
 
 func initConnect() elastigo.Conn {
 	connect := elastigo.NewConn()
 	connect.Domain = *host
 	connect.Port = port
-	connect.Username ="awesome_bi"
-	connect.Password ="bi@@#$23(SDAFDSWE!#DASFSDGSDGSDG123eghhjjhj)"
-	connect.ClusterDomains = []string {"114.55.65.41"}
+	connect.Username = setting.ES_UserName
+	connect.Password = setting.ES_Password
+	connect.ClusterDomains = []string {setting.ES_Cluster_Domains}
 	return *connect;
 }
 
