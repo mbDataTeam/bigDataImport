@@ -59,23 +59,46 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Search',
                     handler: function () {
-                        var result = $('#query-builder').queryBuilder('getSQL', false);
-                        if (result.sql.length > 0) {
-                            bootbox.alert({
-                                title: "sql语句",
-                                message: "<P>"+result.sql+"</P>"
-                            });
+                        var firstCataValues = getCheckedParameter($("#sParentCategory"));
+                        //alert(firstCataValues)
+                        var secCataValues = getCheckedParameter($("#sCategory"));
+                        //alert(secCataValues)
+                        var thirdCataValues = getCheckedParameter($("#sCourseName"));
+                        //alert(thirdCataValues)
 
+                        var root = $('#query-builder').queryBuilder('getModel');
+                        rules = root.model.root.rules;
+                        if (rules.length == 0 ||(rules.length == 1 && !rules[0].filter)){
                             grid.store.clearData();
                             grid.view.refresh();
                             store.load(
                                 {
                                     params : {
-                                        filters: result.sql
+                                        filters: ""
                                     }
                                 }
                             )
                         }
+                        else {
+                            var result = $('#query-builder').queryBuilder('getSQL', false);
+                            if (result.sql.length > 0) {
+                                bootbox.alert({
+                                    title: "sql语句",
+                                    message: "<P>" + result.sql + "</P>"
+                                });
+                                grid.store.clearData();
+                                grid.view.refresh();
+                                store.load(
+                                    {
+                                        params : {
+                                            filters: result.sql
+                                        }
+                                    }
+                                )
+                            }
+
+                        }
+
                     }
                 },
                 {

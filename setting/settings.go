@@ -17,6 +17,7 @@ var (
 	ES_Cluster_Domains string
 )
 
+// initialize config file information
 func init()  {
 	var fileName string
 	var err error
@@ -36,7 +37,7 @@ func init()  {
 		fmt.Sprint(err)
 	}
 	Environment, err = config.GetString("env", "")
-	DataQuery, err = config.GetString("data_query", "")
+	DataQuery, err = config.GetString("data_query", "") //prod 10.24.35.212:7777
 	ES_Index, err = config.GetString("elastic_search/index","")
 	ES_Host,err = config.GetString("elastic_search/host","")
 	ES_Port,err = config.GetString("elastic_search/port","")
