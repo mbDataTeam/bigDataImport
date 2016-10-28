@@ -8,14 +8,14 @@ import (
 	"encoding/csv"
 )
 
-func ExportFile(result *ResultDataSchema, extensions string)(string,error)  {
+func ExportFile(result *ResultDataSchema, extensions string,columnSchema []ColumnSchema)(string,error)  {
 	switch extensions {
 		case "xlsx":
-			return  exportExcel(result,extensions)
+			return  exportExcel(result,extensions,columnSchema)
 		case "csv":
-			return exportCSV(result,extensions)
+			return exportCSV(result,extensions,columnSchema)
 		default:
-			return exportExcel(result,extensions)
+			return exportExcel(result,extensions,columnSchema)
 	}
 }
 
@@ -31,7 +31,7 @@ func getFilePath(extensions string) string  {
 }
 
 //export xlsx file
-func exportExcel(result *ResultDataSchema,extensions string) (string,error)  {
+func exportExcel(result *ResultDataSchema,extensions string,columnSchema []ColumnSchema) (string,error)  {
 	var file  *xlsx.File
 	var sheet *xlsx.Sheet
 	var row *xlsx.Row
@@ -48,7 +48,8 @@ func exportExcel(result *ResultDataSchema,extensions string) (string,error)  {
 	colLenght := len(result.Columns)
 	for i :=0; i< colLenght; i++ {
 		cell = row.AddCell()
-		cell.Value = fmt.Sprintf("%s",result.Columns[i].Text)
+		colText := getColumnTitle(result.Columns[i].Text,columnSchema )
+		cell.Value = colText
 	}
 	//end
 	
@@ -73,7 +74,7 @@ func exportExcel(result *ResultDataSchema,extensions string) (string,error)  {
 }
 
 //export csv file
-func exportCSV(result *ResultDataSchema,extensions string) (string,error) {
+func exportCSV(result *ResultDataSchema,extensions string,columnSchema []ColumnSchema) (string,error) {
 	filePath :=getFilePath(extensions)
 	file, err := os.Create(filePath)
 	if err != nil{
@@ -88,7 +89,8 @@ func exportCSV(result *ResultDataSchema,extensions string) (string,error) {
 	
 	cols := []string{}
 	for _,col := range result.Columns{
-		cols = append(cols,col.Text)
+		colText := getColumnTitle(col.Text,columnSchema )
+		cols = append(cols,colText)
 	}
 	writer.Write(cols)
 	//end
@@ -106,4 +108,13 @@ func exportCSV(result *ResultDataSchema,extensions string) (string,error) {
 	rows = nil // clear rows object
 	defer writer.Flush()
 	return filePath,err
+}
+
+func getColumnTitle(colField string,columnSchema []ColumnSchema) string  {
+	for _, column := range columnSchema {
+		if column.Field == colField{
+			return column.Name
+		}
+	}
+	return ""
 }

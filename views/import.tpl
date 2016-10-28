@@ -34,12 +34,18 @@
         <script type="text/javascript" src="/static/js/binding.js"></script>
         <script type="text/javascript" src="/static/js/mul_Select.js"></script>
 
+        <style>
+            .body{
+
+            }
+        </style>
+
     </head>
 
-    <body style="background-color: #B2C248">
+    <body class="body">
         <table width="100%">
             <tr>
-                <td>
+                <td id="tdSelectType">
                     <select id="sParentCategory" multiple="multiple"></select>
                     <select id="sCategory" multiple="multiple"></select>
                     <select id="sCourseName" multiple="multiple"></select>
@@ -105,8 +111,7 @@
         Columns : {{.ImportDataDefinition.Columns}},
         Filters : {{.ImportDataDefinition.Filters}},
         Fields : {{.ImportDataDefinition.Fields}},
-        TableName : {{.ImportDataDefinition.TableName}},
-        CompanyId : {{.ImportDataDefinition.CompanyId}},
+        SelectGroup : {{.ImportDataDefinition.SelectGroup}},
     }
 
 </script>

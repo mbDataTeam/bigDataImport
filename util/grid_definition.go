@@ -11,6 +11,7 @@ type ResultDataSchema struct {
 type TableSchema struct {
 	MetaId string `json:"meta_id"`
 	TableDesc string `json:"table_desc"`
+	SelectGroup string `json:"select_group"` // 确定是否显示一组级联dropdownlist
 	TableName string `json:"table_name"`
 	Columns []ColumnSchema `json:"columns"`
 }
@@ -21,6 +22,7 @@ type ColumnSchema struct {
 	Type string `json:"type"`
 	Show bool `json:"show"`
 	Values string `json:"values"`
+	ReferField string `json:"refer_field"`
 }
 
 type Filters struct {
@@ -49,6 +51,7 @@ type ImportDataDefinition struct{
 	Fields []string
 	TableName string
 	CompanyId string
+	SelectGroup string
 }
 
 type SelectSchema struct {
@@ -111,4 +114,8 @@ const (
 	Sel_ParentCatalog = "pCatalog"
 	Sel_Catalog = "catalog"
 	Sel_Course = "course"
+)
+
+const (
+	Course_Group = "course_group"
 )

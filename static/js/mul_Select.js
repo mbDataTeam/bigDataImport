@@ -3,26 +3,31 @@
  */
 
 $(document).ready(function () {
-    var pCatalog = $("#sParentCategory");
-    configSelect(pCatalog, "Parent Catalog list","pCatalog");
+    if(window.BootData.SelectGroup == "" || typeof window.BootData.SelectGroup =='undefined') {
+        $("#tdSelectType").css("display","none");
+    }
+    else {
+        var pCatalog = $("#sParentCategory");
+        configSelect(pCatalog, "Parent Catalog list", "pCatalog");
 
-    var catalog = $("#sCategory");
-    configSelect(catalog, "Catalog list","catalog");
+        var catalog = $("#sCategory");
+        configSelect(catalog, "Catalog list", "catalog");
 
-    var course = $("#sCourseName");
-    configSelect(course, "Course list");
+        var course = $("#sCourseName");
+        configSelect(course, "Course list");
 
-    fillFirstSelectData(window.BootData.CompanyId, "pCatalog");
+        fillFirstSelectData("pCatalog");
+    }
 
 });
 
 
 // get data to fill select control
-function fillFirstSelectData(ids, selectType ) {
+function fillFirstSelectData(selectType ) {
 
     $.ajax({
         url: "/api/fillSelect",
-        data: { "compIds": ids , "selectType" : selectType},
+        data: { "selectType" : selectType},
         type: "POST",
         dataType: "json",
         success: function (data) {
@@ -40,7 +45,7 @@ function fillFirstSelectData(ids, selectType ) {
 function fillSecondData(ids) {
     $.ajax({
         url: "/api/fillSelect",
-        data: { "ids": ids , "compIds": window.BootData.CompanyId,"selectType" : "catalog"},
+        data: { "ids": ids , "selectType" : "catalog"},
         type: "POST",
         dataType: "json",
         success: function (data) {
@@ -57,7 +62,7 @@ function fillSecondData(ids) {
 function fillThirdData(ids) {
     $.ajax({
         url: "/api/fillSelect",
-        data: { "ids": ids , "compIds": window.BootData.CompanyId, "selectType" : "course"},
+        data: { "ids": ids , "selectType" : "course"},
         type: "POST",
         dataType: "json",
         success: function (data) {

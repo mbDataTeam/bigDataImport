@@ -1,8 +1,9 @@
 {
     "env" : "dev",
     "data_query":"http://192.168.174.139:8085/query",
+    "limit" : 1000,
     "elastic_search":{
-      "index" : "meta_data_import",
+      "index" : "big_data_import",
       "host" : "114.55.65.41",
       "port" : "29200",
       "user_name" : "awesome_bi",

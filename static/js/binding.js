@@ -22,7 +22,7 @@ Ext.onReady(function(){
         proxy: {
             // load using HTTP
             type: 'ajax',
-            url: '/api/fetchData?tableName='+window.BootData.TableName,
+            url: '/api/fetchData',
             reader: {
                 type: 'json',
                 rootProperty: 'data',
@@ -43,7 +43,9 @@ Ext.onReady(function(){
             displayMsg: 'Displaying {0} to {1} of {2} &nbsp;records ',
             emptyMsg: "No records to display&nbsp;"
         },
-        forceFit: true,
+        viewConfig:{
+            autoFill:true
+        },
         height: 360,
         split: true,
         region: 'north'
@@ -59,12 +61,20 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Search',
                     handler: function () {
-                        var firstCataValues = getCheckedParameter($("#sParentCategory"));
-                        //alert(firstCataValues)
-                        var secCataValues = getCheckedParameter($("#sCategory"));
-                        //alert(secCataValues)
-                        var thirdCataValues = getCheckedParameter($("#sCourseName"));
-                        //alert(thirdCataValues)
+                        var filters =""
+                        if(window.BootData.SelectGroup) {
+                            var firstCataValues = getCheckedParameter($("#sParentCategory"));
+                            if(firstCataValues == "" || firstCataValues == null){
+                                filters = ""
+                            }
+                            else {
+                                filters = " Parent_Category_Id in (" + firstCataValues+ ")"
+                                var secCataValues = getCheckedParameter($("#sCategory"));
+                                secCataValues == "" ? filters : filters = filters + " and Category_Id in (" + secCataValues + ")"
+                                var thirdCataValues = getCheckedParameter($("#sCourseName"));
+                                thirdCataValues == "" ? filters : filters = filters +" and course_id in (" + thirdCataValues + ")";
+                            }
+                        }
 
                         var root = $('#query-builder').queryBuilder('getModel');
                         rules = root.model.root.rules;
@@ -74,7 +84,7 @@ Ext.onReady(function(){
                             store.load(
                                 {
                                     params : {
-                                        filters: ""
+                                        filters: filters
                                     }
                                 }
                             )
@@ -82,16 +92,17 @@ Ext.onReady(function(){
                         else {
                             var result = $('#query-builder').queryBuilder('getSQL', false);
                             if (result.sql.length > 0) {
-                                bootbox.alert({
-                                    title: "sql语句",
-                                    message: "<P>" + result.sql + "</P>"
-                                });
                                 grid.store.clearData();
                                 grid.view.refresh();
+                                filters == "" ? (filters = result.sql) : (filters = filters + " and " + result.sql)
+                                bootbox.alert({
+                                    title: "sql语句",
+                                    message: "<P>" + filters + "</P>"
+                                });
                                 store.load(
                                     {
                                         params : {
-                                            filters: result.sql
+                                            filters: filters
                                         }
                                     }
                                 )

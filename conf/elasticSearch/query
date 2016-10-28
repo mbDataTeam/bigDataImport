@@ -1,17 +1,17 @@
 //查询文档
-GET meta_data_import/_search
+GET big_data_import/_search
 {
   "query": {
     "match": {
-      "meta_id": "course_feedback_raw"
+      "meta_id": "task_data_export"
     }
   }
 }
 
 //update
-POST /meta_data_import/course_quiz_raw/2/_update
+POST /big_data_import/data_export_schema/2/_update
 {
 "doc": {
-  "table_name" : "mb.warehouse.course_quiz_raw"
+  "table_name" : ""
 }
 }
