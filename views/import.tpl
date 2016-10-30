@@ -35,14 +35,24 @@
         <script type="text/javascript" src="/static/js/mul_Select.js"></script>
 
         <style>
-            .body{
-
+            .body {
+                background-color: #36393D;
+                background: url(/static/images/bg-wood.jpg);
+                overflow: hidden;
+            }
+            .home{
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 1rem;
+                line-height: 1.5;
+                color: #555555;
+                background-color: #c1e2b3;
+                height: 100%;
             }
         </style>
 
     </head>
 
-    <body class="body">
+    <body class="home">
         <table width="100%">
             <tr>
                 <td id="tdSelectType">

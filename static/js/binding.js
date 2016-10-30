@@ -95,10 +95,6 @@ Ext.onReady(function(){
                                 grid.store.clearData();
                                 grid.view.refresh();
                                 filters == "" ? (filters = result.sql) : (filters = filters + " and " + result.sql)
-                                bootbox.alert({
-                                    title: "sql语句",
-                                    message: "<P>" + filters + "</P>"
-                                });
                                 store.load(
                                     {
                                         params : {
