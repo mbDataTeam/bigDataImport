@@ -16,6 +16,7 @@ var (
 	ES_Password string
 	ES_Cluster_Domains string
 	Limit int
+	Top int
 )
 
 // initialize config file information
@@ -40,6 +41,7 @@ func init()  {
 	Environment, err = config.GetString("env", "")
 	DataQuery, err = config.GetString("data_query", "") //prod 10.24.35.212:7777 -- dev 192.168.174.139:8085
 	Limit,err = config.GetInt("limit", "10000")
+	Top, err = config.GetInt("top",2000)
 	ES_Index, err = config.GetString("elastic_search/index","")
 	ES_Host,err = config.GetString("elastic_search/host","")
 	ES_Port,err = config.GetString("elastic_search/port","")

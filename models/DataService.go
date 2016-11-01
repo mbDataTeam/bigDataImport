@@ -24,6 +24,9 @@ func generateRows(pageIndex,start,pageCount int, tableName,sqlView, filters,comp
 	rows := []interface{}{}
 	if rowCount > 0{
 		for i:= 0; i < rowCount;i++{
+			if i == setting.Top {  // setting grid data count
+				break;
+			}
 			row := make(map[string]interface{})
 			rowData := rowResult.Rows[i]
 			for j :=0; j < colCount; j++ {
