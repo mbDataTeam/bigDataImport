@@ -113,10 +113,16 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Export',
                     handler: function () {
+                        var gridColumns = grid.headerCt.getVisibleGridColumns();//[0].dataIndex
+                        //var visibleCols = [];
+                        visibleCols.length = 0;
+                        for(var i=0; i<gridColumns.length; i++){
+                            visibleCols.push({"name":gridColumns[i].text,"field":gridColumns[i].dataIndex })
+                        }
                         if(Ext.getStore("gridStore").totalCount > 0) {
                             $("#btnPopWin").click()
                         }
-
+                        //Ext.getCmp("detailPanel")
                         /*
                         var result = $('#query-builder').queryBuilder('getSQL', false);
                         if (result.sql.length > 0) {

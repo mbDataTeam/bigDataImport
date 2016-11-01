@@ -45,6 +45,26 @@ func exportExcel(result *ResultDataSchema,extensions string,columnSchema []Colum
 	}
 	//add first row for column header in excel
 	row = sheet.AddRow()
+	for _,col := range columnSchema{
+		cell = row.AddCell()
+		cell.Value = col.Name
+	}
+	
+	for _, resultRow := range result.Rows{
+		row = sheet.AddRow()
+		for _,col := range columnSchema{
+			cell = row.AddCell()
+			findIndex := getColumnIndex(col.Field,result)
+			str:= resultRow[findIndex]
+			switch str.(type) {
+				case float64:
+					cell.SetFloat(str.(float64))
+				default:
+					cell.Value = fmt.Sprintf("%v",str)
+				}
+		}
+	}
+	/*row = sheet.AddRow()
 	colLenght := len(result.Columns)
 	for i :=0; i< colLenght; i++ {
 		cell = row.AddCell()
@@ -66,10 +86,10 @@ func exportExcel(result *ResultDataSchema,extensions string,columnSchema []Colum
 				default:
 					cell.Value = fmt.Sprintf("%v",str)
 				}
-			
 		}
 	}
 	//end
+	*/
 	
 	filePath :=getFilePath(extensions)
 	fmt.Print(filePath)
@@ -95,9 +115,9 @@ func exportCSV(result *ResultDataSchema,extensions string,columnSchema []ColumnS
 	writer := csv.NewWriter(file)
 	
 	cols := []string{}
-	for _,col := range result.Columns{
-		colText := getColumnTitle(col.Text,columnSchema )
-		cols = append(cols,colText)
+	for _,col := range columnSchema{
+		//colText := getColumnTitle(col.Text,columnSchema )
+		cols = append(cols,col.Name)
 	}
 	writer.Write(cols)
 	//end
@@ -105,8 +125,9 @@ func exportCSV(result *ResultDataSchema,extensions string,columnSchema []ColumnS
 	rows := [][]string{}
 	for _, row := range result.Rows{
 		copyRow :=[]string{}
-		for k :=0; k< len(result.Columns); k++ {
-			str := row[k]
+		for _,col := range columnSchema{
+			findIndex := getColumnIndex(col.Field,result)
+			str:= row[findIndex]
 			var colValue string
 			switch str.(type) {
 				case float64:
@@ -119,6 +140,20 @@ func exportCSV(result *ResultDataSchema,extensions string,columnSchema []ColumnS
 			copyRow = append(copyRow,colValue)
 		}
 		rows = append(rows,copyRow)
+		/*
+		for k :=0; k< len(result.Columns); k++ {
+			str := row[k]
+			var colValue string
+			switch str.(type) {
+				case float64:
+					colValue = fmt.Sprintf("%f",str)
+				case float32:
+					colValue = fmt.Sprintf("%f",str)
+				default:
+					colValue = fmt.Sprintf("%v",str)
+				}
+			copyRow = append(copyRow,colValue)
+		}*/
 	}
 	writer.WriteAll(rows)
 	rows = nil // clear rows object
@@ -133,4 +168,15 @@ func getColumnTitle(colField string,columnSchema []ColumnSchema) string  {
 		}
 	}
 	return ""
+}
+
+func getColumnIndex(field string, result *ResultDataSchema ) int  {
+	var findIndex int
+	for index, col := range result.Columns{
+		if col.Text == field {
+			findIndex = index
+			break
+		}
+	}
+	return findIndex
 }

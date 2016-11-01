@@ -7,13 +7,13 @@ import (
 	"bigDataImport/models"
 	"fmt"
 	"bigDataImport/setting"
+	"encoding/json"
 )
 
 var (
 	bigDataResult *util.ResultDataSchema
 	viewName string
 	companyIds string
-	columnSchema []util.ColumnSchema
 	tbName string
 )
 
@@ -37,7 +37,7 @@ func (c *ImportController) Get() {
 	tableSchema := util.QueryTableMeta(metaId); // query table schema from elastic search
 	//tableSchema.SelectGroup = "Course_Group"; // todo remove
 	jsonColumn, jsonFilter, fields,tableName := util.GenerateFilterAndGridColumns(*tableSchema)
-	columnSchema = tableSchema.Columns
+	//columnSchema = tableSchema.Columns
 	viewName = setting.SQLView[tableName]
 	tbName = tableName
 	
@@ -67,8 +67,11 @@ func (c *ImportController) List() {
 //generate csv or excel file
 func (c *ImportController) SaveFile(){
 	extensions := c.GetString("extensions")      // file extensions name
-	fmt.Sprintf("download file extensions %s", extensions)
-	_,err := util.ExportFile(bigDataResult,extensions,columnSchema)
+	cols := c.GetString("cols")
+	schema := make([]util.ColumnSchema,0)
+	json.Unmarshal([]byte(cols),&schema)
+	fmt.Sprintf("download schema %s", schema)
+	_,err := util.ExportFile(bigDataResult,extensions,schema)
 	var jsonData string
 	if err == nil{
 		jsonData = `{"successful" : true }`

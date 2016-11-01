@@ -134,13 +134,13 @@
         filters: JSON.parse(window.BootData.Filters)
     });
 
-    $("#btnConfirm").click(function () {
+    $("#btnConfirm").click(function (e) {
         var extensions = $("#rdExcel")[0].checked ? $("#rdExcel")[0].value : $("#rdCSV")[0].value;
         $("#btnClose").click();
         $.ajax({
             type: "POST",
             url: '/api/importData',
-            data: { "extensions":extensions },
+            data: { "extensions":extensions, "cols" : JSON.stringify(visibleCols) },
             success: function(result) {
                 var resultData = JSON.parse(result)
                 if(resultData.successful == true)
@@ -150,6 +150,7 @@
     })
 
     var start,end;
+    var visibleCols = [];
     $(".rules-group-header").append($('#dateRangePicker'))
 
 </script>
