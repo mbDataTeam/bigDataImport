@@ -14,6 +14,7 @@ var (
 	viewName string
 	companyIds string
 	columnSchema []util.ColumnSchema
+	tbName string
 )
 
 type ImportController struct {
@@ -38,6 +39,7 @@ func (c *ImportController) Get() {
 	jsonColumn, jsonFilter, fields,tableName := util.GenerateFilterAndGridColumns(*tableSchema)
 	columnSchema = tableSchema.Columns
 	viewName = setting.SQLView[tableName]
+	tbName = tableName
 	
 	c.Data["ImportDataDefinition"] = &util.ImportDataDefinition{
 		GridTitle: tableSchema.TableDesc,
@@ -56,7 +58,7 @@ func (c *ImportController) List() {
 	limit,_ := strconv.Atoi(c.GetString("limit"))  // row count per page
 	//tableName := c.GetString("tableName")      // table name
 	filters := c.GetString("filters")          // sql where condition
-	jsonData,result:= models.GetDataList(page,start,limit,viewName,filters,companyIds)
+	jsonData,result:= models.GetDataList(page,start,limit,tbName,viewName,filters,companyIds)
 	bigDataResult = result
 	c.Data["json"] = jsonData
 	c.ServeJSON()

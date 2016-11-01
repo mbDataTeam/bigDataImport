@@ -38,7 +38,7 @@ func init()  {
 		fmt.Sprint(err)
 	}
 	Environment, err = config.GetString("env", "")
-	DataQuery, err = config.GetString("data_query", "") //prod 10.24.35.212:7777
+	DataQuery, err = config.GetString("data_query", "") //prod 10.24.35.212:7777 -- dev 192.168.174.139:8085
 	Limit,err = config.GetInt("limit", "10000")
 	ES_Index, err = config.GetString("elastic_search/index","")
 	ES_Host,err = config.GetString("elastic_search/host","")

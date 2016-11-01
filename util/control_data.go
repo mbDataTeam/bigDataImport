@@ -18,6 +18,23 @@ func InitGenders() map[int]string {
 	}
 }
 
+//radio button or checkbox for condtionType data
+func InitConditionType() map[string]string {
+	return map[string]string{
+		"指定人" : "指定人",
+		"按照条件" : "按照条件",
+	}
+}
+
+//radio button or checkbox for task type data
+func InitTaskType() map[string]string {
+	return map[string]string{
+		"特殊任务" : "特殊任务",
+		"每日任务" : "每日任务",
+		"专区任务" : "专区任务",
+	}
+}
+
 //get course catalog list by company ids
 func GetParentCatalogs(companyIds string) *[]SelectSchema  {
 	sql := `select distinct Parent_Category_name, Parent_Category_Id

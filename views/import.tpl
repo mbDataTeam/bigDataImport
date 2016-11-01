@@ -13,7 +13,7 @@
         <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/bootstrap-datepicker3.css">
         <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/awesome-bootstrap-checkbox.css">
         <link rel="stylesheet" type="text/css" href="/static/css/querybuilder/query-builder.default.css">
-
+        <link rel="stylesheet" type="text/css" href="/static/css/daterangepicker.css">
 
         <!-- GC -->
         <script type="text/javascript" src="/static/js/querybuilder/jquery.js"></script>
@@ -27,19 +27,17 @@
         <script type="text/javascript" src="/static/js/querybuilder/jQuery.extendext.js"></script>
         <script type="text/javascript" src="/static/js/querybuilder/query-builder.js"></script>
         <script type="text/javascript" src="/static/js/bootstrap-multiselect.js"></script>
+        <script type="text/javascript" src="/static/js/moment.js"></script>
+        <script type="text/javascript" src="/static/js/daterangepicker.js"></script>
 
         <script type="text/javascript" src="/static/js/ext-all.js"></script>
 
         <!-- page specific   -->
         <script type="text/javascript" src="/static/js/binding.js"></script>
         <script type="text/javascript" src="/static/js/mul_Select.js"></script>
+        <script type="text/javascript" src="/static/js/custRangeDatePicker.js"></script>
 
         <style>
-            .body {
-                background-color: #36393D;
-                background: url(/static/images/bg-wood.jpg);
-                overflow: hidden;
-            }
             .home{
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
                 font-size: 1rem;
@@ -53,6 +51,10 @@
     </head>
 
     <body class="home">
+    <div id="dateRangePicker" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 20%">
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+        <span></span> <b class="caret"></b>
+    </div>
         <table width="100%">
             <tr>
                 <td id="tdSelectType">
@@ -146,5 +148,9 @@
             }
         });
     })
+
+    var start,end;
+    $(".rules-group-header").append($('#dateRangePicker'))
+
 </script>
 

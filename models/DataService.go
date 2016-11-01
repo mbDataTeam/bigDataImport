@@ -5,10 +5,11 @@ import (
 	"bigDataImport/util"
 	"bigDataImport/setting"
 	"strings"
+	"strconv"
 )
 
-func GetDataList(pageIndex,start,pageCount int,tableName,filters,companyId string) (interface{},*util.ResultDataSchema) {
-	rows, result := generateRows(pageIndex,start,pageCount,tableName,filters,companyId)
+func GetDataList(pageIndex,start,pageCount int,tableName,sqlView,filters,companyId string) (interface{},*util.ResultDataSchema) {
+	rows, result := generateRows(pageIndex,start,pageCount,tableName,sqlView,filters,companyId)
 	jsonData := map[string]interface{}{}
 	totalCount := len(rows)
 	jsonData["data"] = rows
@@ -16,8 +17,8 @@ func GetDataList(pageIndex,start,pageCount int,tableName,filters,companyId strin
 	return jsonData, result
 }
 
-func generateRows(pageIndex,start,pageCount int, tableName, filters,companyId string) ([]interface{},*util.ResultDataSchema) {
-	rowResult := getRows(pageIndex,start,pageCount,tableName,filters,companyId)
+func generateRows(pageIndex,start,pageCount int, tableName,sqlView, filters,companyId string) ([]interface{},*util.ResultDataSchema) {
+	rowResult := getRows(pageIndex,start,pageCount,tableName, sqlView, filters,companyId)
 	colCount := len(rowResult.Columns)
 	rowCount := len(rowResult.Rows)
 	rows := []interface{}{}
@@ -37,30 +38,22 @@ func generateRows(pageIndex,start,pageCount int, tableName, filters,companyId st
 
 }
 
-func getRows(pageIndex,start,pageCount int,tableName, filters,companyId string) *util.ResultDataSchema {
-	find :=strings.Index(tableName,"?")
+func getRows(pageIndex,start,pageCount int,tableName, sqlView, filters,companyId string) *util.ResultDataSchema {
+	find :=strings.Index(sqlView,"?")
 	if find >=0{
-		tableName = strings.Replace(tableName,"?",companyId,-1)
+		sqlView = strings.Replace(sqlView,"?",companyId,-1)
 	}
 	limit := setting.Limit
 	var sql string
-	if filters == ""{
-		sql = fmt.Sprintf("SELECT * FROM %s LIMIT %d ",tableName,limit)
-	}else {
-		sql = fmt.Sprintf("SELECT * FROM %s where %s LIMIT %d", tableName, filters, limit)
+	switch tableName {
+		case "task_data_export_view":
+			sql = `select * from (select a.* ,row_number() over(partition by a.task_user_id order by task_update_time desc)
+											rank         from ( `+ sqlView +` ) a where
+											`+ filters +` ) where rank=1 LIMIT ` + strconv.Itoa(limit)
+		default:
+			sql = fmt.Sprintf("SELECT * FROM %s where %s LIMIT %d", sqlView, filters, limit)
 	}
+	
 	return  util.QueryData(sql)
 }
 
-//如果查询条件里面有 更新日期 需要替换 格式：20160809
-func processPartionDate(filters, tableName string) string{
-	 if filters == ""{
-		 return ""
-	 }
-	 updateTimeKey := "user_task_update_time"
-	 findKey := strings.Index(filters,updateTimeKey)
-	 if findKey >=0{
-		 
-	 }
-	return ""
-}

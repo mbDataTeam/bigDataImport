@@ -36,7 +36,7 @@ func buildFilterData(columns []ColumnSchema, index int, filters []Filters) []Fil
 		Values: buildValues(columns[index].Values),
 		Operators: buildOperations(columns[index].Type),
 		Plugin: buildPlug(columns[index].Type),
-		Plugin_config: buildPlugConfig(columns[index].Type),
+		Plugin_config: buildPlugConfig(columns[index].Field,columns[index].Type),
 	})
 	return filters
 }
@@ -50,7 +50,7 @@ func buildPlug(dataType string) (string)  {
 }
 
 //build plugin config
-func buildPlugConfig(dataType string) (interface{})  {
+func buildPlugConfig(field,dataType string) (interface{})  {
 	var config interface{}
 	switch dataType {
 		case Col_Date:
@@ -67,6 +67,7 @@ func buildPlugConfig(dataType string) (interface{})  {
 				"todayHighlight": true,
 				"autoclose": false,
 			}
+			
 		case Col_Time:
 			config = map[string]interface{}{
 				"format": "hh:ii:ss",
@@ -80,9 +81,16 @@ func buildPlugConfig(dataType string) (interface{})  {
 //return input control
 func buildInput(dataType,valueType string) (string) {
 	var input string
+	if valueType == Confirm_Type || valueType == Conditon_Type || valueType == Task_Type {
+		input = Input_radio
+	}else {
+		input = Input_text
+	}
+	
+	/*
 	switch dataType {
 		case Col_Int, Col_Double:
-			if valueType == Confirm_Type {
+			if valueType == Confirm_Type || valueType == Conditon_Type {
 				input = Input_radio
 			}else {
 				input = Input_text
@@ -92,7 +100,8 @@ func buildInput(dataType,valueType string) (string) {
 		default:
 			input = Input_text
 		}
-		return input
+	*/
+	return input
 }
 
 //return operations
@@ -105,7 +114,7 @@ func buildOperations(dataType string) ([]string) {
 				Opt_greater_or_equal,Opt_between,Opt_not_between }
 			
 		case Col_Date, Col_DateTime, Col_Time:
-			operations = []string{ Opt_greater, Opt_greater_or_equal,Opt_between,Opt_not_between }
+			operations = []string{ Opt_equal,Opt_not_equal,Opt_in, Opt_not_in, Opt_greater, Opt_greater_or_equal,Opt_between,Opt_not_between }
 			
 		case Col_String:
 			operations =[]string{ Opt_equal, Opt_not_equal,Opt_in,Opt_not_in,Opt_begins_with,Opt_not_begins_with,
@@ -123,6 +132,10 @@ func buildValues(valuesType string) (interface{}) {
 			values = InitYesOrNo()
 		case Gender_Type:
 			values = InitGenders()
+		case Conditon_Type:
+			values = InitConditionType()
+		case Task_Type:
+			values = InitTaskType()
 		default:
 			values = ""
 		}

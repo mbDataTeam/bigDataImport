@@ -61,18 +61,19 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Search',
                     handler: function () {
-                        var filters =""
+                        var filters ="( p between '" + start.format('YYYYMMDD') + "' and '" + end.format('YYYYMMDD') +"' ) ";
                         if(window.BootData.SelectGroup) {
                             var firstCataValues = getCheckedParameter($("#sParentCategory"));
-                            if(firstCataValues == "" || firstCataValues == null){
-                                filters = ""
+                            if (firstCataValues != "") {
+                                filters = filters + " and Parent_Category_Id in (" + firstCataValues + ")";
                             }
-                            else {
-                                filters = " Parent_Category_Id in (" + firstCataValues+ ")"
-                                var secCataValues = getCheckedParameter($("#sCategory"));
-                                secCataValues == "" ? filters : filters = filters + " and Category_Id in (" + secCataValues + ")"
-                                var thirdCataValues = getCheckedParameter($("#sCourseName"));
-                                thirdCataValues == "" ? filters : filters = filters +" and course_id in (" + thirdCataValues + ")";
+                            var secCataValues = getCheckedParameter($("#sCategory"));
+                            if (secCataValues != "") {
+                                filters = filters + " and Category_Id in (" + secCataValues + ")";
+                            }
+                            var thirdCataValues = getCheckedParameter($("#sCourseName"));
+                            if (thirdCataValues != "") {
+                                filters = filters + " and course_id in (" + thirdCataValues + ")";
                             }
                         }
 
@@ -80,7 +81,6 @@ Ext.onReady(function(){
                         rules = root.model.root.rules;
                         if (rules.length == 0 ||(rules.length == 1 && !rules[0].filter)){
                             grid.store.clearData();
-                            grid.view.refresh();
                             store.load(
                                 {
                                     params : {
@@ -88,13 +88,13 @@ Ext.onReady(function(){
                                     }
                                 }
                             )
+                            grid.view.refresh();
                         }
                         else {
                             var result = $('#query-builder').queryBuilder('getSQL', false);
                             if (result.sql.length > 0) {
                                 grid.store.clearData();
-                                grid.view.refresh();
-                                filters == "" ? (filters = result.sql) : (filters = filters + " and " + result.sql)
+                                filters = filters + " and " + result.sql;
                                 store.load(
                                     {
                                         params : {
@@ -102,6 +102,7 @@ Ext.onReady(function(){
                                         }
                                     }
                                 )
+                                grid.view.refresh();
                             }
 
                         }
@@ -141,6 +142,12 @@ Ext.onReady(function(){
             }]
     });
 
-    store.load();
+    store.load(
+        {
+            params : {
+                filters: "( p between '" + start.format('YYYYMMDD') + "' and '" + end.format('YYYYMMDD') +"' ) "
+            }
+        }
+    );
 });
 
