@@ -59,7 +59,14 @@ func exportExcel(result *ResultDataSchema,extensions string,columnSchema []Colum
 		row = sheet.AddRow()
 		for k :=0; k< colLenght; k++ {
 			cell = row.AddCell()
-			cell.Value = fmt.Sprintf("%v",result.Rows[j][k])
+			str:= result.Rows[j][k]
+			switch str.(type) {
+				case float64:
+					cell.SetFloat(str.(float64))
+				default:
+					cell.Value = fmt.Sprintf("%v",str)
+				}
+			
 		}
 	}
 	//end
@@ -99,7 +106,16 @@ func exportCSV(result *ResultDataSchema,extensions string,columnSchema []ColumnS
 	for _, row := range result.Rows{
 		copyRow :=[]string{}
 		for k :=0; k< len(result.Columns); k++ {
-			colValue := fmt.Sprintf("%v",row[k])
+			str := row[k]
+			var colValue string
+			switch str.(type) {
+				case float64:
+					colValue = fmt.Sprintf("%f",str)
+				case float32:
+					colValue = fmt.Sprintf("%f",str)
+				default:
+					colValue = fmt.Sprintf("%v",str)
+				}
 			copyRow = append(copyRow,colValue)
 		}
 		rows = append(rows,copyRow)
