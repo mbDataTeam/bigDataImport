@@ -51,17 +51,18 @@
     </head>
 
     <body class="home">
-    <div id="dateRangePicker" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 20%">
+    <div id="dateRangePicker" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 18%">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
         <span></span> <b class="caret"></b>
     </div>
+    <div class="btn-group pull-right group-actions" id="divSelectGroup">
+        <select id="sParentCategory" multiple="multiple"></select>
+        <select id="sCategory" multiple="multiple"></select>
+        <select id="sCourseName" multiple="multiple"></select>
+    </div>
+
         <table width="100%">
             <tr>
-                <td id="tdSelectType">
-                    <select id="sParentCategory" multiple="multiple"></select>
-                    <select id="sCategory" multiple="multiple"></select>
-                    <select id="sCourseName" multiple="multiple"></select>
-                </td>
                 <td></td>
                 <td></td>
             </tr>
@@ -151,7 +152,11 @@
 
     var start,end;
     var visibleCols = [];
+
     $(".rules-group-header").append($('#dateRangePicker'))
+    $(".rules-group-header").append($('#divSelectGroup'))
+
+
 
 </script>
 

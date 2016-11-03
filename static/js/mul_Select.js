@@ -4,7 +4,7 @@
 
 $(document).ready(function () {
     if(window.BootData.SelectGroup == "" || typeof window.BootData.SelectGroup =='undefined') {
-        $("#tdSelectType").css("display","none");
+        $("#divSelectGroup").css("display","none");
     }
     else {
         var pCatalog = $("#sParentCategory");

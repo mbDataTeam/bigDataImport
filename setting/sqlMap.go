@@ -5,7 +5,7 @@ var SQLView map[string]string  = map[string]string{
 						   select a.task_user_id,
                         a.task_id,
                         b.task_name,
-                        case when b.task_type= 1 then '特殊任务' else '每日任务' end task_type,
+                        case when b.task_type= 1 then '每日任务' when b.task_type=0 then '特殊任务' when b.task_type=2 then '专区任务' else '未知' end task_type,
                         c.user_id,
                         c.employee_id,c.realname,c.department,
                         case when b.expired_time=0 then '' else date_format(from_unixtime(b.expired_time),'%Y%m%d') end as task_expired_time,

@@ -3,7 +3,7 @@ $(function() {
     end = moment();
 
     function cb(start, end) {
-        $('#dateRangePicker span').html(start.format('YYYY-MM-DD') + ' --- ' + end.format('YYYY-MM-DD'));
+        $('#dateRangePicker span').html('From '+ start.format('YYYY-MM-DD') + ' To  ' + end.format('YYYY-MM-DD'));
     }
 
     $('#dateRangePicker').daterangepicker({
