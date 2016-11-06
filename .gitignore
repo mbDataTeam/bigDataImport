@@ -2,9 +2,7 @@
 .idea/
 bigDataImport.exe
 static/css/images/tools/
-static/css/querybuilder/bootstrap-datepicker3.css
 static/images/tools/tool-sprites.png
-static/js/querybuilder/bootstrap-datepicker.js
 static/tmpFile/*
 conf/elasticSearch
 

@@ -114,7 +114,8 @@ func buildOperations(dataType string) ([]string) {
 				Opt_greater_or_equal,Opt_between,Opt_not_between }
 			
 		case Col_Date, Col_DateTime, Col_Time:
-			operations = []string{ Opt_equal,Opt_not_equal,Opt_in, Opt_not_in, Opt_greater, Opt_greater_or_equal,Opt_between,Opt_not_between }
+			operations = []string{ Opt_equal,Opt_not_equal,Opt_in, Opt_not_in, Opt_less,Opt_less_or_equal,Opt_greater,
+				Opt_greater_or_equal,Opt_between,Opt_not_between }
 			
 		case Col_String:
 			operations =[]string{ Opt_equal, Opt_not_equal,Opt_in,Opt_not_in,Opt_begins_with,Opt_not_begins_with,
