@@ -13,9 +13,11 @@ func GenerateFilterAndGridColumns(schema TableSchema)(string, string,[]string,st
 		return "", "", fields,""
 	}
 	for i:= 0; i<total;i++ {
-		if(schema.Columns[i].Show == true) {
+		if schema.Columns[i].Show {
 			columns = buildGridColumnsData(schema.Columns, i, columns)
-			filters = buildFilterData(schema.Columns, i, filters);
+			if schema.Columns[i].FilterShow { //field在grid控件可以show, 但是在filter控件可以不show
+				filters = buildFilterData(schema.Columns, i, filters);
+			}
 			fields = append(fields, schema.Columns[i].Field)
 		}
 	}
@@ -27,7 +29,6 @@ func GenerateFilterAndGridColumns(schema TableSchema)(string, string,[]string,st
 
 // build filter schema data
 func buildFilterData(columns []ColumnSchema, index int, filters []Filters) []Filters {
-	
 	filters = append(filters, Filters{
 		Id: columns[index].Field,
 		Label: columns[index].Name,

@@ -23,6 +23,7 @@ type ColumnSchema struct {
 	Show bool `json:"show"`
 	Values string `json:"values"`
 	ReferField string `json:"refer_field"`
+	FilterShow bool `json:"filter_show"`
 }
 
 type Filters struct {
