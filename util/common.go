@@ -82,7 +82,7 @@ func buildPlugConfig(field,dataType string) (interface{})  {
 //return input control
 func buildInput(dataType,valueType string) (string) {
 	var input string
-	if valueType == Confirm_Type || valueType == Conditon_Type || valueType == Task_Type {
+	if valueType == Confirm_Type || valueType == Gender_Type  || valueType == Conditon_Type || valueType == Task_Type || valueType == Emp_Status_Type {
 		input = Input_radio
 	}else {
 		input = Input_text
@@ -138,6 +138,8 @@ func buildValues(valuesType string) (interface{}) {
 			values = InitConditionType()
 		case Task_Type:
 			values = InitTaskType()
+	    case Emp_Status_Type:
+		     values = InitEmployeStatus()
 		default:
 			values = ""
 		}

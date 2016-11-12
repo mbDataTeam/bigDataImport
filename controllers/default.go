@@ -35,10 +35,12 @@ func (c *ImportController) Get() {
 	metaId := c.GetString("meta_id") // get table name
 	companyIds = c.GetString("company_id")
 	tableSchema := util.QueryTableMeta(metaId); // query table schema from elastic search
-	//tableSchema.SelectGroup = "Course_Group"; // todo remove
 	jsonColumn, jsonFilter, fields,tableName := util.GenerateFilterAndGridColumns(*tableSchema)
 	//columnSchema = tableSchema.Columns
-	viewName = setting.SQLView[tableName]
+	viewName = setting.SQLView[tableName];
+	if viewName == ""{
+		viewName = tableName;
+	}
 	tbName = tableName
 	
 	c.Data["ImportDataDefinition"] = &util.ImportDataDefinition{
@@ -46,7 +48,7 @@ func (c *ImportController) Get() {
 		Columns: jsonColumn,
 		Filters: jsonFilter,
 		Fields:  fields,
-		SelectGroup: tableSchema.SelectGroup,
+		SelectGroup: "",//tableSchema.SelectGroup,
 	}
 	c.TplName = "import.tpl"
 }

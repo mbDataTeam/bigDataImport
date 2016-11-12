@@ -3,18 +3,18 @@ package util
 import "fmt"
 
 //radio button or checkbox for yes or no data
-func InitYesOrNo() map[int]string {
-	return map[int]string{
-		1 : "是",
-		0 : "否",
+func InitYesOrNo() map[string]string {
+	return map[string]string{
+		"是" : "是",
+		"否" : "否",
 	}
 }
 
 //radio button or checkbox for gender data
-func InitGenders() map[int]string {
-	return map[int]string{
-		1 : "男",
-		0 : "女",
+func InitGenders() map[string]string {
+	return map[string]string{
+		"男" : "男",
+		"女" : "女",
 	}
 }
 
@@ -33,6 +33,13 @@ func InitTaskType() map[string]string {
 		"每日任务" : "每日任务",
 		"专区任务" : "专区任务",
 		"未知" : "未知",
+	}
+}
+
+func InitEmployeStatus() map[string]string{
+	return map[string]string{
+		"在职" : "在职",
+		"离职" : "离职",
 	}
 }
 

@@ -110,6 +110,7 @@ const (
 	Gender_Type = "gender" //男 女
 	Conditon_Type = "conditionType" //条件类型
 	Task_Type = "taskType" //任务类型
+	Emp_Status_Type = "empStatus" //员工状态
 )
 
 const (
