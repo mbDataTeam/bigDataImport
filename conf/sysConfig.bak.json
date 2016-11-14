@@ -1,0 +1,15 @@
+{
+  "env" : "prod",
+  "data_query":"http://10.24.35.212:7777/query",
+  "limit" : 10000,
+  "top" : 1000,
+  "signUrl" : "http://localhost:9100",
+  "elastic_search":{
+    "index" : "big_data_import",
+    "host" : "114.55.65.41",
+    "port" : "29200",
+    "user_name" : "awesome_bi",
+    "password" : "bi@@#$23(SDAFDSWE!#DASFSDGSDGSDG123eghhjjhj)",
+    "cluster_domains" : "114.55.65.41"
+  }
+}

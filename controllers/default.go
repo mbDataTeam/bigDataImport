@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"bigDataImport/setting"
 	"encoding/json"
+	"net/url"
+	"strings"
 )
 
 var (
@@ -25,12 +27,12 @@ type ImportController struct {
 // http://localhost:9100/api/import/?meta_id=task_data_export&company_id=207&sign=6fc0b7963bf543a59b506430475f204a324a2479
 func (c *ImportController) Get() {
 	
-	/*var getUrl string
+	var getUrl string
 	requestUrl,_ :=  url.QueryUnescape(c.Ctx.Request.URL.String())
 	getUrl = strings.Join([]string{setting.SignUrl,requestUrl},""); //http://databi.ifuli.cn:39200
 	if (util.ValidateSignUrl(getUrl) == false){
 		c.Ctx.WriteString("invalidate sign name")
-	}*/
+	}
 	
 	metaId := c.GetString("meta_id") // get table name
 	companyIds = c.GetString("company_id")
