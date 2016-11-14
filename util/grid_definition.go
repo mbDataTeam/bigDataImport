@@ -1,11 +1,13 @@
 package util
 
 type ResultDataSchema struct {
-	Columns []struct{
-		Text string `json:"text"`
-	}`json:"columns"`
+	Cols []Columns `json:"columns"`
 	Rows [][]interface{} `json:"rows"`
 	Type string `json:"type"`
+}
+
+type Columns struct {
+	Text string `json:"text"`
 }
 
 type TableSchema struct {

@@ -3,50 +3,45 @@ package models
 import (
 	"fmt"
 	"bigDataImport/util"
-	"bigDataImport/setting"
 	"strings"
 	"strconv"
 )
 
-func GetDataList(pageIndex,start,pageCount int,tableName,sqlView,filters,companyId string) (interface{},*util.ResultDataSchema) {
-	rows, result := generateRows(pageIndex,start,pageCount,tableName,sqlView,filters,companyId)
+func GetDataList(tableName,sqlView,filters,companyId string,limit int) (interface{},[]interface{},[]util.Columns) {
+	rows,columns := generateRows(tableName,sqlView,filters,companyId,limit)
 	jsonData := map[string]interface{}{}
 	totalCount := len(rows)
 	jsonData["data"] = rows
 	jsonData["rowCount"] = totalCount
-	return jsonData, result
+	return jsonData,rows,columns
 }
 
-func generateRows(pageIndex,start,pageCount int, tableName,sqlView, filters,companyId string) ([]interface{},*util.ResultDataSchema) {
-	rowResult := getRows(pageIndex,start,pageCount,tableName, sqlView, filters,companyId)
-	colCount := len(rowResult.Columns)
+func generateRows(tableName,sqlView, filters,companyId string,limit int) ([]interface{},[]util.Columns) {
+	rowResult := GetRows(tableName, sqlView, filters,companyId,limit)
+	colCount := len(rowResult.Cols)
 	rowCount := len(rowResult.Rows)
 	rows := []interface{}{}
 	if rowCount > 0{
 		for i:= 0; i < rowCount;i++{
-			if i == setting.Top {  // setting grid data count
-				break;
-			}
 			row := make(map[string]interface{})
 			rowData := rowResult.Rows[i]
 			for j :=0; j < colCount; j++ {
-				k := rowResult.Columns[j].Text
+				k := rowResult.Cols[j].Text
 				row[k] = rowData[j]
 			}
 			rows = append(rows,row)
 		}
 	}
 	//fmt.Print(rows)
-	return rows,rowResult;
+	return rows,rowResult.Cols;
 
 }
 
-func getRows(pageIndex,start,pageCount int,tableName, sqlView, filters,companyId string) *util.ResultDataSchema {
+func GetRows(tableName, sqlView, filters,companyId string, limit int) *util.ResultDataSchema {
 	find :=strings.Index(sqlView,"?")
 	if find >=0{
 		sqlView = strings.Replace(sqlView,"?",companyId,-1)
 	}
-	limit := setting.Limit
 	var sql string
 	switch tableName {
 		case "task_data_export_view":

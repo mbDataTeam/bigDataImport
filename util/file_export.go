@@ -8,14 +8,14 @@ import (
 	"encoding/csv"
 )
 
-func ExportFile(result *ResultDataSchema, extensions string,columnSchema []ColumnSchema)(string,error)  {
+func ExportFile(resultRows [][]interface{}, extensions string,columnSchema []ColumnSchema, columns []Columns)(string,error)  {
 	switch extensions {
 		case "xlsx":
-			return  exportExcel(result,extensions,columnSchema)
+			return  exportExcel(resultRows,extensions,columnSchema,columns)
 		case "csv":
-			return exportCSV(result,extensions,columnSchema)
+			return exportCSV(resultRows,extensions,columnSchema,columns)
 		default:
-			return exportExcel(result,extensions,columnSchema)
+			return exportExcel(resultRows,extensions,columnSchema,columns)
 	}
 }
 
@@ -31,7 +31,7 @@ func getFilePath(extensions string) string  {
 }
 
 //export xlsx file
-func exportExcel(result *ResultDataSchema,extensions string,columnSchema []ColumnSchema) (string,error)  {
+func exportExcel(resultRows [][]interface{},extensions string,columnSchema []ColumnSchema, columns []Columns) (string,error)  {
 	var file  *xlsx.File
 	var sheet *xlsx.Sheet
 	var row *xlsx.Row
@@ -50,11 +50,11 @@ func exportExcel(result *ResultDataSchema,extensions string,columnSchema []Colum
 		cell.Value = col.Name
 	}
 	
-	for _, resultRow := range result.Rows{
+	for _, resultRow := range resultRows{
 		row = sheet.AddRow()
 		for _,col := range columnSchema{
 			cell = row.AddCell()
-			findIndex := getColumnIndex(col.Field,result)
+			findIndex := getColumnIndex(col.Field,columns)
 			str:= resultRow[findIndex]
 			switch str.(type) {
 				case float64:
@@ -101,7 +101,7 @@ func exportExcel(result *ResultDataSchema,extensions string,columnSchema []Colum
 }
 
 //export csv file
-func exportCSV(result *ResultDataSchema,extensions string,columnSchema []ColumnSchema) (string,error) {
+func exportCSV(resultRows [][]interface{},extensions string,columnSchema []ColumnSchema,columns []Columns) (string,error) {
 	filePath :=getFilePath(extensions)
 	file, err := os.Create(filePath)
 	if err != nil{
@@ -123,10 +123,10 @@ func exportCSV(result *ResultDataSchema,extensions string,columnSchema []ColumnS
 	//end
 	
 	rows := [][]string{}
-	for _, row := range result.Rows{
+	for _, row := range resultRows{
 		copyRow :=[]string{}
 		for _,col := range columnSchema{
-			findIndex := getColumnIndex(col.Field,result)
+			findIndex := getColumnIndex(col.Field,columns)
 			str:= row[findIndex]
 			var colValue string
 			switch str.(type) {
@@ -170,9 +170,9 @@ func getColumnTitle(colField string,columnSchema []ColumnSchema) string  {
 	return ""
 }
 
-func getColumnIndex(field string, result *ResultDataSchema ) int  {
+func getColumnIndex(field string, cols []Columns ) int  {
 	var findIndex int
-	for index, col := range result.Columns{
+	for index, col := range cols{
 		if col.Text == field {
 			findIndex = index
 			break

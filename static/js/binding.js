@@ -21,6 +21,9 @@ Ext.onReady(function(){
         id: 'gridStore',
         proxy: {
             // load using HTTP
+            actionMethods: {
+                read   : 'POST', // by default GET
+            },
             type: 'ajax',
             url: '/api/fetchData',
             reader: {
@@ -61,7 +64,6 @@ Ext.onReady(function(){
                     xtype: 'button',
                     text: 'Search',
                     handler: function () {
-                        var filters ="( p between '" + start.format('YYYYMMDD') + "' and '" + end.format('YYYYMMDD') +"' ) ";
                         if(window.BootData.SelectGroup) {
                             var firstCataValues = getCheckedParameter($("#sParentCategory"));
                             if (firstCataValues != "") {
@@ -76,7 +78,6 @@ Ext.onReady(function(){
                                 filters = filters + " and course_id in (" + thirdCataValues + ")";
                             }
                         }
-
                         var root = $('#query-builder').queryBuilder('getModel');
                         rules = root.model.root.rules;
                         if (rules.length == 0 ||(rules.length == 1 && !rules[0].filter)){

@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"bigDataImport/util"
-	"strconv"
 	"bigDataImport/models"
 	"fmt"
 	"bigDataImport/setting"
@@ -13,7 +12,6 @@ import (
 )
 
 var (
-	bigDataResult *util.ResultDataSchema
 	viewName string
 	companyIds string
 	tbName string
@@ -29,9 +27,9 @@ func (c *ImportController) Get() {
 	var getUrl string
 	requestUrl,_ :=  url.QueryUnescape(c.Ctx.Request.URL.String())
 	getUrl = strings.Join([]string{setting.SignUrl,requestUrl},""); //http://databi.ifuli.cn:39200
-	if (util.ValidateSignUrl(getUrl) == false){
+	/*if (util.ValidateSignUrl(getUrl) == false){
 		c.Ctx.WriteString("invalidate sign name from URL : " + getUrl)
-	}
+	}*/
 	
 	fmt.Sprint("%s",getUrl)
 	metaId := c.GetString("meta_id") // get table name
@@ -57,13 +55,13 @@ func (c *ImportController) Get() {
 
 //paging
 func (c *ImportController) List() {
-	page,_ := strconv.Atoi(c.GetString("page"))   // page index, start with 1
-	start,_ := strconv.Atoi(c.GetString("start"))  // start row index , start with 0
-	limit,_ := strconv.Atoi(c.GetString("limit"))  // row count per page
+	//page,_ := strconv.Atoi(c.GetString("page"))   // page index, start with 1
+	//start,_ := strconv.Atoi(c.GetString("start"))  // start row index , start with 0
+	//limit,_ := strconv.Atoi(c.GetString("limit"))  // row count per page
 	//tableName := c.GetString("tableName")      // table name
+	limit := setting.Top
 	filters := c.GetString("filters")          // sql where condition
-	jsonData,result:= models.GetDataList(page,start,limit,tbName,viewName,filters,companyIds)
-	bigDataResult = result
+	jsonData,_,_:= models.GetDataList(tbName,viewName,filters,companyIds,limit)
 	c.Data["json"] = jsonData
 	c.ServeJSON()
 }
@@ -75,7 +73,9 @@ func (c *ImportController) SaveFile(){
 	schema := make([]util.ColumnSchema,0)
 	json.Unmarshal([]byte(cols),&schema)
 	fmt.Sprintf("download schema %s", schema)
-	_,err := util.ExportFile(bigDataResult,extensions,schema)
+	filters := c.GetString("filters")
+	result:= models.GetRows(tbName,viewName,filters,companyIds,setting.Limit)
+	_,err := util.ExportFile(result.Rows,extensions,schema,result.Cols)
 	var jsonData string
 	if err == nil{
 		jsonData = `{"successful" : true }`

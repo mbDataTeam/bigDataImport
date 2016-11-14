@@ -4,6 +4,10 @@ $(function() {
 
     function cb(start, end) {
         $('#dateRangePicker span').html('From '+ start.format('YYYY-MM-DD') + ' To  ' + end.format('YYYY-MM-DD'));
+
+        //init filter
+        filters ="( p between '" + start.format('YYYYMMDD') + "' and '" + end.format('YYYYMMDD') +"' ) ";
+
     }
 
     $('#dateRangePicker').daterangepicker({

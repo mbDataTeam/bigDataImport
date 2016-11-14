@@ -141,7 +141,7 @@
         $.ajax({
             type: "POST",
             url: '/api/importData',
-            data: { "extensions":extensions, "cols" : JSON.stringify(visibleCols) },
+            data: { "extensions":extensions, "filters":filters, "cols" : JSON.stringify(visibleCols) },
             success: function(result) {
                 var resultData = JSON.parse(result)
                 if(resultData.successful == true)
@@ -150,13 +150,11 @@
         });
     })
 
-    var start,end;
+    var start,end,filters;
     var visibleCols = [];
 
     $(".rules-group-header").append($('#dateRangePicker'))
     $(".rules-group-header").append($('#divSelectGroup'))
-
-
 
 </script>
 
