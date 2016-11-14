@@ -125,6 +125,7 @@
         Filters : {{.ImportDataDefinition.Filters}},
         Fields : {{.ImportDataDefinition.Fields}},
         SelectGroup : {{.ImportDataDefinition.SelectGroup}},
+        SecondUrl : {{.ImportDataDefinition.SecondUrl}},
     }
 
 </script>
@@ -140,12 +141,12 @@
         $("#btnClose").click();
         $.ajax({
             type: "POST",
-            url: '/api/importData',
+            url: window.BootData.SecondUrl+'/api/importData',
             data: { "extensions":extensions, "cols" : JSON.stringify(visibleCols) },
             success: function(result) {
                 var resultData = JSON.parse(result)
                 if(resultData.successful == true)
-                    window.location.href = "/static/tmpFile/mbData."    + extensions;
+                    window.location.href = window.BootData.SecondUrl+"/static/tmpFile/mbData."    + extensions;
             }
         });
     })

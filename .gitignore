@@ -6,4 +6,6 @@ static/images/tools/tool-sprites.png
 static/tmpFile/*
 conf/elasticSearch
 conf/elasticSearch/*
+main.exe
+bigDataImport.tar.gz
 

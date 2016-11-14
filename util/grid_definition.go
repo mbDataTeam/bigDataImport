@@ -53,6 +53,7 @@ type ImportDataDefinition struct{
 	TableName string
 	CompanyId string
 	SelectGroup string
+	SecondUrl string
 }
 
 type SelectSchema struct {

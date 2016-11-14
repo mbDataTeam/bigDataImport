@@ -1,0 +1,46 @@
+PUT /big_data_import/_mapping/data_export_schema
+{
+  "data_export_schema":{
+    "properties": {
+    "meta_id":{
+      "type": "string",
+      "index": "analyzed"
+    },
+    "table_desc":{
+      "type": "string",
+      "index": "not_analyzed"
+    },
+    "table_name":{
+      "type": "string",
+      "index": "not_analyzed"
+    },
+    "select_group":{
+      "type": "string",
+      "index": "not_analyzed"
+    },
+    "columns": {
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "show": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        },
+        "values": {
+          "type": "string"
+        },
+        "refer_field":{
+          "type":"string"
+        }
+      }
+    }
+
+  }
+  }
+}

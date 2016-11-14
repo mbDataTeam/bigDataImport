@@ -26,7 +26,7 @@ $(document).ready(function () {
 function fillFirstSelectData(selectType ) {
 
     $.ajax({
-        url: "/api/fillSelect",
+        url: window.BootData.SecondUrl+"/api/fillSelect",
         data: { "selectType" : selectType},
         type: "POST",
         dataType: "json",
@@ -44,7 +44,7 @@ function fillFirstSelectData(selectType ) {
 
 function fillSecondData(ids) {
     $.ajax({
-        url: "/api/fillSelect",
+        url: window.BootData.SecondUrl+"/api/fillSelect",
         data: { "ids": ids , "selectType" : "catalog"},
         type: "POST",
         dataType: "json",
@@ -61,7 +61,7 @@ function fillSecondData(ids) {
 
 function fillThirdData(ids) {
     $.ajax({
-        url: "/api/fillSelect",
+        url: window.BootData.SecondUrl+"/api/fillSelect",
         data: { "ids": ids , "selectType" : "course"},
         type: "POST",
         dataType: "json",

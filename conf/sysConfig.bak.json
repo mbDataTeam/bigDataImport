@@ -1,9 +1,10 @@
 {
   "env" : "prod",
   "data_query":"http://10.24.35.212:7777/query",
-  "limit" : 10000,
+  "limit" : 50000,
   "top" : 1000,
-  "signUrl" : "http://localhost:9100",
+  "signUrl" : "http://databi.ifuli.cn",
+  "secUrl" : "/bi_export",
   "elastic_search":{
     "index" : "big_data_import",
     "host" : "114.55.65.41",

@@ -18,6 +18,7 @@ var (
 	Limit int
 	Top int
 	SignUrl string
+	SecondUrl string
 )
 
 // initialize config file information
@@ -44,6 +45,7 @@ func init()  {
 	Limit,err = config.GetInt("limit", "10000")
 	Top, err = config.GetInt("top",2000)
 	SignUrl, err = config.GetString("signUrl","http://databi.ifuli.cn/bi_export")
+	SecondUrl, err = config.GetString("secUrl","/bi_export")
 	ES_Index, err = config.GetString("elastic_search/index","")
 	ES_Host,err = config.GetString("elastic_search/host","")
 	ES_Port,err = config.GetString("elastic_search/port","")
