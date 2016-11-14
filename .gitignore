@@ -3,7 +3,6 @@
 bigDataImport.exe
 static/css/images/tools/
 static/images/tools/tool-sprites.png
-static/tmpFile/*
 conf/elasticSearch
 conf/elasticSearch/*
 main.exe
