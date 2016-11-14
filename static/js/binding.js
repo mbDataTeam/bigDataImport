@@ -22,7 +22,7 @@ Ext.onReady(function(){
         proxy: {
             // load using HTTP
             type: 'ajax',
-            url: window.BootData.SecondUrl+'/api/fetchData',
+            url: '/api/fetchData',
             reader: {
                 type: 'json',
                 rootProperty: 'data',

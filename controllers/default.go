@@ -23,17 +23,16 @@ type ImportController struct {
 	beego.Controller
 }
 
-// http://localhost:29100/bi_export/api/import/?meta_id=course_study_export&company_id=207    //course_study_export,task_data_export
-// http://localhost:29100/bi_export/api/import/?meta_id=task_data_export&company_id=207&sign=6fc0b7963bf543a59b506430475f204a324a2479
+// http://localhost:29100/api/import/?meta_id=course_study_export&company_id=207    //course_study_export,task_data_export
+// http://localhost:29100/api/import/?meta_id=task_data_export&company_id=207&sign=6fc0b7963bf543a59b506430475f204a324a2479
 func (c *ImportController) Get() {
-	
 	var getUrl string
 	requestUrl,_ :=  url.QueryUnescape(c.Ctx.Request.URL.String())
 	getUrl = strings.Join([]string{setting.SignUrl,requestUrl},""); //http://databi.ifuli.cn:39200
-	/*if (util.ValidateSignUrl(getUrl) == false){
+	if (util.ValidateSignUrl(getUrl) == false){
 		c.Ctx.WriteString("invalidate sign name from URL : " + getUrl)
 	}
-	*/
+	
 	fmt.Sprint("%s",getUrl)
 	metaId := c.GetString("meta_id") // get table name
 	companyIds = c.GetString("company_id")
@@ -52,7 +51,6 @@ func (c *ImportController) Get() {
 		Filters: jsonFilter,
 		Fields:  fields,
 		SelectGroup: tableSchema.SelectGroup,
-		SecondUrl: setting.SecondUrl,
 	}
 	c.TplName = "import.tpl"
 }

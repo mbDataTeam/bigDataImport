@@ -3,8 +3,7 @@
   "data_query":"http://10.24.35.212:7777/query",
   "limit" : 50000,
   "top" : 1000,
-  "signUrl" : "http://databi.ifuli.cn",
-  "secUrl" : "/bi_export",
+  "signUrl" : "http://databi.ifuli.cn:39200",
   "elastic_search":{
     "index" : "big_data_import",
     "host" : "114.55.65.41",
