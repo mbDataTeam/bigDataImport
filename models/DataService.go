@@ -54,7 +54,7 @@ func getRows(pageIndex,start,pageCount int,tableName, sqlView, filters,companyId
 											rank         from ( `+ sqlView +` ) a where
 											`+ filters +` ) where rank=1 LIMIT ` + strconv.Itoa(limit)
 		default:
-			sql = fmt.Sprintf("SELECT * FROM %s where %s LIMIT %d", sqlView, filters, limit)
+			sql = fmt.Sprintf(`SELECT * FROM %s where company_id in ( %s ) and %s LIMIT %d`, sqlView, companyId, filters, limit)
 	}
 	
 	return  util.QueryData(sql)

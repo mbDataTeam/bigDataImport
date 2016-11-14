@@ -21,7 +21,7 @@ type ImportController struct {
 	beego.Controller
 }
 
-// http://localhost:9100/api/import/?meta_id=task_data_export&company_id=207
+// http://localhost:9100/api/import/?meta_id=course_study_export&company_id=207    //course_study_export,task_data_export
 // http://localhost:9100/api/import/?meta_id=task_data_export&company_id=207&sign=6fc0b7963bf543a59b506430475f204a324a2479
 func (c *ImportController) Get() {
 	
@@ -48,7 +48,7 @@ func (c *ImportController) Get() {
 		Columns: jsonColumn,
 		Filters: jsonFilter,
 		Fields:  fields,
-		SelectGroup: "",//tableSchema.SelectGroup,
+		SelectGroup: tableSchema.SelectGroup,
 	}
 	c.TplName = "import.tpl"
 }

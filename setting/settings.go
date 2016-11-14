@@ -43,7 +43,7 @@ func init()  {
 	DataQuery, err = config.GetString("data_query", "") //prod 10.24.35.212:7777 -- dev 192.168.174.139:8085
 	Limit,err = config.GetInt("limit", "10000")
 	Top, err = config.GetInt("top",2000)
-	SignUrl, err = config.GetString("signUrl","http://databi.ifuli.cn:39200")
+	SignUrl, err = config.GetString("signUrl","http://databi.ifuli.cn/bi_export")
 	ES_Index, err = config.GetString("elastic_search/index","")
 	ES_Host,err = config.GetString("elastic_search/host","")
 	ES_Port,err = config.GetString("elastic_search/port","")
