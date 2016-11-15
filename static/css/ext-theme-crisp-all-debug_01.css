@@ -23732,7 +23732,7 @@ a.x-color-picker-item:hover {
 .x-grid-checkcolumn {
     width: 15px;
     height: 15px;
-    background: url(images/form/checkbox.png) 0 0 no-repeat; }
+    background: url(../images/form/checkbox.png) 0 0 no-repeat; }
 /* line 17, ../../../ext-theme-neutral/sass/src/grid/column/Check.scss */
 .x-item-disabled .x-grid-checkcolumn {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
