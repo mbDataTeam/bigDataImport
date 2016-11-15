@@ -27,9 +27,9 @@ func (c *ImportController) Get() {
 	var getUrl string
 	requestUrl,_ :=  url.QueryUnescape(c.Ctx.Request.URL.String())
 	getUrl = strings.Join([]string{setting.SignUrl,requestUrl},""); //http://databi.ifuli.cn:39200
-	/*if (util.ValidateSignUrl(getUrl) == false){
+	if (util.ValidateSignUrl(getUrl) == false){
 		c.Ctx.WriteString("invalidate sign name from URL : " + getUrl)
-	}*/
+	}
 	
 	fmt.Sprint("%s",getUrl)
 	metaId := c.GetString("meta_id") // get table name
