@@ -46,6 +46,18 @@
                 background-color: #c1e2b3;
                 height: 100%;
             }
+
+            #divLoading{
+                display : none;
+            }
+
+            #divLoading.show{
+                position:fixed;top:0px;right:0px;width:100%;height:100%;background-color:#666;
+                background-image:url('/static/images/ajax-loading.gif');
+                background-repeat:no-repeat;background-position:center;z-index:10000000;  opacity: 0.7;
+                filter: alpha(opacity=70);
+            }
+
         </style>
 
     </head>
@@ -117,6 +129,9 @@
         </div>
     </body>
 
+    <div id="divLoading">
+    </div>
+
 </html>
 <script>
     window.BootData = {
@@ -138,14 +153,18 @@
     $("#btnConfirm").click(function (e) {
         var extensions = $("#rdExcel")[0].checked ? $("#rdExcel")[0].value : $("#rdCSV")[0].value;
         $("#btnClose").click();
+        $("div#divLoading").addClass('show');
         $.ajax({
             type: "POST",
             url: '/api/importData',
             data: { "extensions":extensions, "filters":filters, "cols" : JSON.stringify(visibleCols) },
             success: function(result) {
                 var resultData = JSON.parse(result)
-                if(resultData.successful == true)
-                    window.location.href = "/static/tmpFile/mbData."    + extensions;
+                if(resultData.successful == true) {
+                    $("div#divLoading").removeClass('show');
+                    window.location.href = "/static/tmpFile/mbData." + extensions;
+
+                }
             }
         });
     })

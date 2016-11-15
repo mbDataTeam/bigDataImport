@@ -7,4 +7,5 @@ conf/elasticSearch
 conf/elasticSearch/*
 main.exe
 bigDataImport.tar.gz
+static/tmpFile/*
 
